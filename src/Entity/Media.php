@@ -17,7 +17,7 @@ class Media
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $label = null;
+    public ?string $label = null;
 
     #[Gedmo\Timestampable(on:"update")]
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -105,4 +105,6 @@ class Media
 
         return $this;
     }
+
+
 }

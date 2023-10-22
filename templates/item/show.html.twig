@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Item{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Show Item</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_item_index') }}"> 
+                    View All Items
+                </a>
+            </div>
+            <div class="card-body">
+                <b class="text-muted">Id:</b>
+                <p>{{ item.id }}</p>
+                <b class="text-muted">Title:</b>
+                <p>{{ item.title }}</p>
+
+                <b class="text-muted">Id Media:</b>
+                <p>{{ item.media.id }}</p>
+
+                <b class="text-muted">Id Support:</b>
+                <p>{{item.support.id }}</p>
+
+
+                <b class="text-muted">Date Created:</b>
+                <p>{{ item.createdAt ? item.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                <b class="text-muted">Date Updated:</b>
+                <p>{{ item.updatedAt ? item.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

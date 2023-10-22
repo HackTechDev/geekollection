@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Edit Item{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Edit Item</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_item_index') }}"> 
+                    View All Items
+                </a>
+            </div>
+            <div class="card-body">
+                {% include 'item/_form.html.twig' with {'button_label': 'Update Item', 'button_color': 'btn-outline-success'}  %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
