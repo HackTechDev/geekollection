@@ -51,9 +51,9 @@ class MediaController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_media_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Media $medium, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Media $media, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(MediaType::class, $medium);
+        $form = $this->createForm(MediaType::class, $media);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,16 +63,16 @@ class MediaController extends AbstractController
         }
 
         return $this->render('media/edit.html.twig', [
-            'medium' => $medium,
+            'media' => $media,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_media_delete', methods: ['POST'])]
-    public function delete(Request $request, Media $medium, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Media $media, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$medium->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($medium);
+        if ($this->isCsrfTokenValid('delete'.$media->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($media);
             $entityManager->flush();
         }
 
