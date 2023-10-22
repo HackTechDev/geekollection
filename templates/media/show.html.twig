@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Media{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Show Media</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_media_index') }}"> 
+                    View All Medias
+                </a>
+            </div>
+            <div class="card-body">
+                <b class="text-muted">Label:</b>
+                <p>{{ media.label }}</p>
+                <b class="text-muted">Date Created:</b>
+                <p>{{ media.createdAt ? media.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                <b class="text-muted">Date Updated:</b>
+                <p>{{ media.updatedAt ? media.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

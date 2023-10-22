@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Support{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Show Support</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_support_index') }}"> 
+                    View All Supports
+                </a>
+            </div>
+            <div class="card-body">
+                <b class="text-muted">Label:</b>
+                <p>{{ support.label }}</p>
+                <b class="text-muted">Date Created:</b>
+                <p>{{ support.createdAt ? support.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                <b class="text-muted">Date Updated:</b>
+                <p>{{ support.updatedAt ? support.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
