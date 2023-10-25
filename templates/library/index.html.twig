@@ -9,12 +9,17 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Title<th>
+                <th>Media<th>
+                <th>Support<th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for library in libraries %}
             <tr>
+                <td>{{ library.id }}</td>
+                <td>{{ library.id }}</td>
                 <td>{{ library.id }}</td>
                 <td>
                     <a href="{{ path('app_library_show', {'id': library.id}) }}">show</a>
