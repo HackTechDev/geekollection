@@ -21,6 +21,15 @@ class LibraryRepository extends ServiceEntityRepository
         parent::__construct($registry, Library::class);
     }
 
+    public function findAllForUser($userId)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Library[] Returns an array of Library objects
 //     */

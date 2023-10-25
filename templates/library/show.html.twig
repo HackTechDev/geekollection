@@ -9,7 +9,16 @@
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ library.id }}</td>
+                <td>
+                    {{ library.id }}
+                        {% for user in library.user %}
+                            {{ user.email }}
+                        {% endfor %}
+                        {% for item in library.item %}
+                            {{ item.title }}
+                            | {{item.media.label}} | {{item.support.label}}
+                        {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>
