@@ -9,9 +9,10 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>User</th>
                 <th>Title<th>
-                <th>Media<th>
-                <th>Support<th>
+              
+               
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,8 +20,21 @@
         {% for library in libraries %}
             <tr>
                 <td>{{ library.id }}</td>
-                <td>{{ library.id }}</td>
-                <td>{{ library.id }}</td>
+                <td>
+                        <ul>
+                            {% for user in library.user %}
+                                {{ user.email }}
+                            {% endfor %}
+                        </ul>
+                </td>
+                <td>
+                 <ul>
+                            {% for item in library.item %}
+                                {{ item.title }}
+                                | {{item.media.label}} | {{item.support.label}}
+                            {% endfor %}
+                        </ul>
+                </td>
                 <td>
                     <a href="{{ path('app_library_show', {'id': library.id}) }}">show</a>
                     <a href="{{ path('app_library_edit', {'id': library.id}) }}">edit</a>

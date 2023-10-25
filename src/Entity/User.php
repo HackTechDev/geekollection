@@ -170,7 +170,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function __toString()
-{
-    return $this->getEmail();
-}
+    {
+        return $this->getEmail();
+    }
 }
