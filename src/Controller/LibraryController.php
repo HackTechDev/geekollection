@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Library;
-use App\Entity\User;
 use App\Form\LibraryType;
 use App\Repository\LibraryRepository;
 use App\Repository\UserRepository;
@@ -12,27 +11,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/library')]
 class LibraryController extends AbstractController
 {
-    private $userRepository;
     
-    public function __construct(UserRepository $userRepository)
+    public function __construct()
     {
-        $this->userRepository = $userRepository;
     }
 
     #[Route('/', name: 'app_library_index', methods: ['GET'])]
-    public function index(LibraryRepository $libraryRepository, EntityManagerInterface $entityManager): Response
+    public function index(LibraryRepository $libraryRepository, Security $security): Response
     {
+        $user = $security->getUser();
 
-        $userId = 1;
-        $userRepository = $this->userManager->getRepository(User::class);
-        $records = $userRepository->findAllForUser($userId);
+        if ($user) {
+            $userId = $user->getId();
+        }
+
+        $records =  $libraryRepository->findAllForUser($userId);
 
         return $this->render('library/index.html.twig', [
-            'libraries' => $libraryRepository->findAll(),
+            'libraries' => $records,
         ]);
     }
 

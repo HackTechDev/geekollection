@@ -11,9 +11,8 @@
                 <th>Id</th>
                 <th>User</th>
                 <th>Title</th>
-                                      <th>Date Created</th>
-                        <th>Date Updated</th>
-               
+                <th>Date Created</th>
+                <th>Date Updated</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,21 +21,21 @@
             <tr>
                 <td>{{ library.id }}</td>
                 <td>
-                        <ul>
-                            {% for user in library.user %}
-                                {{ user.email }}
-                            {% endfor %}
-                        </ul>
+                    <ul>
+                        {% for user in library.user %}
+                            {{ user.email }}
+                        {% endfor %}
+                    </ul>
                 </td>
                 <td>
-                 <ul>
-                            {% for item in library.item %}
-                                {{ item.title }}
-                                | {{item.media.label}} | {{item.support.label}}
-                            {% endfor %}
-                        </ul>
+                    <ul>
+                        {% for item in library.item %}
+                            {{ item.title }}
+                            | {{item.media.label}} | {{item.support.label}}
+                        {% endfor %}
+                    </ul>
                 </td>
-                 <td>{{ library.createdAt ? library.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ library.createdAt ? library.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ library.updatedAt ? library.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_library_show', {'id': library.id}) }}">show</a>

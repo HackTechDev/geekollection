@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Library;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Library>
@@ -16,18 +18,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LibraryRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Library::class);
+        $this->entityManager = $entityManager;
     }
 
     public function findAllForUser($userId)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.id = :userId')
-            ->setParameter('userId', $userId)
-            ->getQuery()
-            ->getResult();
+            return $this->createQueryBuilder('library')
+                    ->leftJoin('library.user','libraryUser')
+                    ->where('libraryUser.id = :userId')
+                    ->setParameter('userId', $userId)
+                    ->getQuery()
+                    ->getResult();
     }
 
 //    /**
