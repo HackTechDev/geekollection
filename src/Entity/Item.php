@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -30,6 +32,14 @@ class Item
     #[Gedmo\Timestampable(on:"update")]
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
+
+    #[ORM\ManyToMany(targetEntity: Library::class, mappedBy: 'item')]
+    private Collection $libraries;
+
+    public function __construct()
+    {
+        $this->libraries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -96,5 +106,35 @@ class Item
         return $this;
     }
 
+    /**
+     * @return Collection<int, Library>
+     */
+    public function getLibraries(): Collection
+    {
+        return $this->libraries;
+    }
 
+    public function addLibrary(Library $library): static
+    {
+        if (!$this->libraries->contains($library)) {
+            $this->libraries->add($library);
+            $library->addItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLibrary(Library $library): static
+    {
+        if ($this->libraries->removeElement($library)) {
+            $library->removeItem($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 }

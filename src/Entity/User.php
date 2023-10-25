@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -37,6 +39,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Gedmo\Timestampable(on:"update")]
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
+
+    #[ORM\ManyToMany(targetEntity: Library::class, mappedBy: 'user')]
+    private Collection $libraries;
+
+    public function __construct()
+    {
+        $this->libraries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -131,4 +141,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
  
         return $this;
     }
+
+    /**
+     * @return Collection<int, Library>
+     */
+    public function getLibraries(): Collection
+    {
+        return $this->libraries;
+    }
+
+    public function addLibrary(Library $library): static
+    {
+        if (!$this->libraries->contains($library)) {
+            $this->libraries->add($library);
+            $library->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLibrary(Library $library): static
+    {
+        if ($this->libraries->removeElement($library)) {
+            $library->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+{
+    return $this->getEmail();
+}
 }
