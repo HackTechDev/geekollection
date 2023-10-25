@@ -3,29 +3,42 @@
 {% block title %}Library{% endblock %}
 
 {% block body %}
-    <h1>Library</h1>
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Show Library</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_library_index') }}"> 
+                    View All Libraries
+                </a>
+            </div>
+            <div class="card-body">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>
-                    {{ library.id }}
-                        {% for user in library.user %}
-                            {{ user.email }}
-                        {% endfor %}
-                        {% for item in library.item %}
-                            {{ item.title }}
-                            | {{item.media.label}} | {{item.support.label}}
-                        {% endfor %}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>
+                                {{ library.id }}
+                                    {% for user in library.user %}
+                                        {{ user.email }}
+                                    {% endfor %}
+                                    {% for item in library.item %}
+                                        {{ item.title }}
+                                        | {{item.media.label}} | {{item.support.label}}
+                                    {% endfor %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+ <a
+    class="btn btn-outline-success"
+    href="{{ path('app_library_edit', {'id': library.id}) }}">
+    Edit
+</a>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('app_library_index') }}">back to list</a>
 
-    <a href="{{ path('app_library_edit', {'id': library.id}) }}">edit</a>
 
-    {{ include('library/_delete_form.html.twig') }}
 {% endblock %}
