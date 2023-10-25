@@ -10,8 +10,9 @@
             <tr>
                 <th>Id</th>
                 <th>User</th>
-                <th>Title<th>
-              
+                <th>Title</th>
+                                      <th>Date Created</th>
+                        <th>Date Updated</th>
                
                 <th>actions</th>
             </tr>
@@ -35,6 +36,8 @@
                             {% endfor %}
                         </ul>
                 </td>
+                 <td>{{ library.createdAt ? library.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ library.updatedAt ? library.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_library_show', {'id': library.id}) }}">show</a>
                     <a href="{{ path('app_library_edit', {'id': library.id}) }}">edit</a>
