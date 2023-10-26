@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Library;
 use App\Form\LibraryType;
+use App\Entity\User;
 use App\Repository\LibraryRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,8 +18,12 @@ use Symfony\Component\Security\Core\Security;
 class LibraryController extends AbstractController
 {
     
-    public function __construct()
+    private $security;
+    
+    public function __construct(Security $security)
     {
+        $this->security = $security;
+    
     }
 
     #[Route('/', name: 'app_library_index', methods: ['GET'])]
@@ -38,8 +43,9 @@ class LibraryController extends AbstractController
     }
 
     #[Route('/new', name: 'app_library_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
+        /*
         $library = new Library();
         $form = $this->createForm(LibraryType::class, $library);
         $form->handleRequest($request);
@@ -51,6 +57,27 @@ class LibraryController extends AbstractController
             return $this->redirectToRoute('app_library_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        return $this->render('library/new.html.twig', [
+            'library' => $library,
+            'form' => $form,
+        ]);
+        */
+
+        $user = $security->getUser(); // Get the connected user
+        $library = new Library();
+        $library->addUser($user); // Set the connected user in the Library entity
+    
+        $form = $this->createForm(LibraryType::class, $library);
+        
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($library);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('app_library_index', [], Response::HTTP_SEE_OTHER);
+        }
+    
         return $this->render('library/new.html.twig', [
             'library' => $library,
             'form' => $form,
