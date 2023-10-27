@@ -42,6 +42,12 @@ class Item
     #[ORM\ManyToOne(inversedBy: 'items')]
     private ?Edition $edition = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $objectlink = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $oeuvrelink = null;
+
     public function __construct()
     {
         $this->libraries = new ArrayCollection();
@@ -164,6 +170,30 @@ class Item
     public function setEdition(?Edition $edition): static
     {
         $this->edition = $edition;
+
+        return $this;
+    }
+
+    public function getObjectlink(): ?string
+    {
+        return $this->objectlink;
+    }
+
+    public function setObjectlink(string $objectlink): static
+    {
+        $this->objectlink = $objectlink;
+
+        return $this;
+    }
+
+    public function getOeuvrelink(): ?string
+    {
+        return $this->oeuvrelink;
+    }
+
+    public function setOeuvrelink(string $oeuvrelink): static
+    {
+        $this->oeuvrelink = $oeuvrelink;
 
         return $this;
     }

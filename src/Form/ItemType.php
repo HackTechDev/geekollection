@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ItemType extends AbstractType
 {
@@ -38,7 +39,16 @@ class ItemType extends AbstractType
             'choices' => $options['edition_choices'],
             'label' => 'Edition',
             'choice_label' => 'label',
-        ]);
+        ])
+        ->add('oeuvrelink', TextareaType::class, [
+            'label' => 'Oeuvre Link',
+            'attr' => ['class' => 'form-control'],
+        ])
+        ->add('objectlink', TextareaType::class, [
+            'label' => 'Object Link',
+            'attr' => ['class' => 'form-control'],
+        ])
+        ;
     }
 
 

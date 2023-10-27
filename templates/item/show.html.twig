@@ -17,17 +17,23 @@
                 <b class="text-muted">Title:</b>
                 <p>{{ item.title }}</p>
 
-                <b class="text-muted">Id Media:</b>
-                <p>{{ item.media.id }}</p>
+                <b class="text-muted">Media:</b>
+                <p>{{ item.media.label }}</p>
 
-                <b class="text-muted">Id Support:</b>
-                <p>{{item.support.id }}</p>
+                <b class="text-muted">Support:</b>
+                <p>{{item.support.label }}</p>
 
-                <b class="text-muted">Id Box:</b>
-                <p>{{ item.box.id }}</p>
+                <b class="text-muted">Box:</b>
+                <p>{{ item.box.label }}</p>
 
-                <b class="text-muted">Id Edition:</b>
-                <p>{{item.edition.id }}</p>
+                <b class="text-muted">Edition:</b>
+                <p>{{item.edition.label }}</p>
+
+                <b class="text-muted">Oeuvrelink:</b>
+                <p>{{ item.oeuvrelink }}</p>
+
+                <b class="text-muted">Objectlink:</b>
+                <p>{{item.objectlink }}</p>
 
                 <b class="text-muted">Date Created:</b>
                 <p>{{ item.createdAt ? item.createdAt|date('Y-m-d H:i:s') : '' }}</p>
