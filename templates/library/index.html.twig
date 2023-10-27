@@ -46,7 +46,11 @@
                                     href="{{ path('app_library_show', {'id': library.id}) }}">
                                     Show
                                 </a>
-                               
+                                <a
+                                    class="btn btn-outline-success"
+                                    href="{{ path('app_library_edit', {'id': library.id}) }}">
+                                    Edit
+                                </a>
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ library.id) }}">
                                 <button class="btn btn-outline-danger">Delete</button>
                             </form>
