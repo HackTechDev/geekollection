@@ -17,6 +17,17 @@
     {{ form_widget(form.support, {'attr': {'class': 'form-control'}}) }}
 </div>
 
+<div class="form-group">
+    {{ form_label(form.box) }}
+    {{ form_widget(form.box, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.edition) }}
+    {{ form_widget(form.edition, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+
 <button class="btn {{ button_color|default('btn-outline-primary') }}  mt-3">{{ button_label|default('Save Item') }}</button>
 
 {{ form_end(form) }}

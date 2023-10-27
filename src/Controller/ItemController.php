@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MediaRepository;
 use App\Repository\SupportRepository;
+use App\Repository\BoxRepository;
+use App\Repository\EditionRepository;
 
 #[Route('/item')]
 class ItemController extends AbstractController
@@ -19,11 +21,17 @@ class ItemController extends AbstractController
 
     private $mediaRepository;
     private $supportRepository;
+    private $boxRepository;
+    private $editionRepository;
 
-    public function __construct(MediaRepository $mediaRepository, SupportRepository $supportRepository)
+
+    public function __construct(MediaRepository $mediaRepository, SupportRepository $supportRepository, 
+                                BoxRepository $boxRepository, EditionRepository $editionRepository)
     {
         $this->mediaRepository = $mediaRepository;
         $this->supportRepository = $supportRepository;
+        $this->boxRepository = $boxRepository;
+        $this->editionRepository = $editionRepository;
     }
 
     #[Route('/', name: 'app_item_index', methods: ['GET'])]
@@ -42,14 +50,20 @@ class ItemController extends AbstractController
 
         $mediaChoices = $this->mediaRepository->findAll();
         $supportChoices = $this->supportRepository->findAll();
+        $boxChoices = $this->boxRepository->findAll();
+        $editionChoices = $this->editionRepository->findAll();
 
         // Create an array of choices with labels
         $mediaChoicesWithLabels = $this->getChoicesWithLabels($mediaChoices, 'label');
         $supportChoicesWithLabels = $this->getChoicesWithLabels($supportChoices, 'label');
+        $boxChoicesWithLabels = $this->getChoicesWithLabels($boxChoices, 'label');
+        $editionChoicesWithLabels = $this->getChoicesWithLabels($editionChoices, 'label');
 
         $form = $this->createForm(ItemType::class, $item, [
             'media_choices' => $mediaChoicesWithLabels,
             'support_choices' => $supportChoicesWithLabels,
+            'box_choices' => $boxChoicesWithLabels,
+            'edition_choices' => $editionChoicesWithLabels,
         ]);
 
 
@@ -57,9 +71,11 @@ class ItemController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-      // Explicitly persist the related Media and Support entities
-        $entityManager->persist($item->getMedia()); // Assuming you have a getter for Media
-        $entityManager->persist($item->getSupport()); // Assuming you have a getter for Support
+
+            $entityManager->persist($item->getMedia());
+            $entityManager->persist($item->getSupport()); 
+            $entityManager->persist($item->getBox());
+            $entityManager->persist($item->getEdition()); 
 
             $entityManager->persist($item);
             $entityManager->flush();
@@ -97,25 +113,29 @@ class ItemController extends AbstractController
     public function edit(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         
-  
-    $mediaChoices = $this->mediaRepository->findAll();
-    $supportChoices = $this->supportRepository->findAll();
+        $mediaChoices = $this->mediaRepository->findAll();
+        $supportChoices = $this->supportRepository->findAll();
+        $boxChoices = $this->boxRepository->findAll();
+        $editionChoices = $this->editionRepository->findAll();
 
-    $form = $this->createForm(ItemType::class, $item, [
-        'media_choices' => $mediaChoices,
-        'support_choices' => $supportChoices,
-    ]);
-    
+        $form = $this->createForm(ItemType::class, $item, [
+            'media_choices' => $mediaChoices,
+            'support_choices' => $supportChoices,
+            'box_choices' => $boxChoices,
+            'edition_choices' => $editionChoices,
+        ]);
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-        // Explicitly persist the related Media and Support entities
-        $entityManager->persist($item->getMedia()); // Assuming you have a getter for Media
-        $entityManager->persist($item->getSupport()); // Assuming you have a getter for Support
-
-        // Then persist the Item entity
-        $entityManager->persist($item);
+            $entityManager->persist($item->getMedia()); 
+            $entityManager->persist($item->getSupport());
+            $entityManager->persist($item->getBox()); 
+            $entityManager->persist($item->getEdition());
+            
+            // Then persist the Item entity
+            $entityManager->persist($item);
 
             $entityManager->flush();
 

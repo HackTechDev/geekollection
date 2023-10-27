@@ -19,6 +19,8 @@
                         <th>Title</th>
                         <th>Media</th>
                         <th>Support</th>
+                        <th>Box</th>
+                        <th>Edition</th>
                         <th>Date Created</th>
                         <th>Date Updated</th>
                         <th width="240px">Action</th>
@@ -29,6 +31,8 @@
                         <td>{{ item.title }}</td>
                         <td>{{ item.media.label }}</td>
                         <td>{{ item.support.label }}</td>
+                        <td>{{ item.box.label }}</td>
+                        <td>{{ item.edition.label }}</td>
 
                         <td>{{ item.createdAt ? item.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ item.updatedAt ? item.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
