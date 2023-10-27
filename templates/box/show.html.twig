@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Box{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Show Box</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_box_index') }}"> 
+                    View All Boxes
+                </a>
+            </div>
+            <div class="card-body">
+                <b class="text-muted">Label:</b>
+                <p>{{ box.label }}</p>
+                <b class="text-muted">Date Created:</b>
+                <p>{{ box.createdAt ? box.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                <b class="text-muted">Date Updated:</b>
+                <p>{{ box.updatedAt ? box.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

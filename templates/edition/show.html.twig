@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Edition{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Show Edition</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_edition_index') }}"> 
+                    View All Editions
+                </a>
+            </div>
+            <div class="card-body">
+                <b class="text-muted">Name:</b>
+                <p>{{ edition.label }}</p>
+                <b class="text-muted">Date Created:</b>
+                <p>{{ edition.createdAt ? edition.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                <b class="text-muted">Date Updated:</b>
+                <p>{{ edition.updatedAt ? edition.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
