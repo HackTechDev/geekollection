@@ -36,6 +36,12 @@ class Item
     #[ORM\ManyToMany(targetEntity: Library::class, mappedBy: 'item')]
     private Collection $libraries;
 
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?Box $box = null;
+
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?Edition $edition = null;
+
     public function __construct()
     {
         $this->libraries = new ArrayCollection();
@@ -136,5 +142,29 @@ class Item
     public function __toString()
     {
         return $this->getTitle();
+    }
+
+    public function getBox(): ?Box
+    {
+        return $this->box;
+    }
+
+    public function setBox(?Box $box): static
+    {
+        $this->box = $box;
+
+        return $this;
+    }
+
+    public function getEdition(): ?Edition
+    {
+        return $this->edition;
+    }
+
+    public function setEdition(?Edition $edition): static
+    {
+        $this->edition = $edition;
+
+        return $this;
     }
 }
