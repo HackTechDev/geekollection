@@ -47,7 +47,6 @@ class ItemController extends AbstractController
     {
         $item = new Item();
 
-
         $mediaChoices = $this->mediaRepository->findAll();
         $supportChoices = $this->supportRepository->findAll();
         $boxChoices = $this->boxRepository->findAll();
@@ -58,7 +57,7 @@ class ItemController extends AbstractController
         $supportChoicesWithLabels = $this->getChoicesWithLabels($supportChoices, 'label');
         $boxChoicesWithLabels = $this->getChoicesWithLabels($boxChoices, 'label');
         $editionChoicesWithLabels = $this->getChoicesWithLabels($editionChoices, 'label');
-
+        
         $form = $this->createForm(ItemType::class, $item, [
             'media_choices' => $mediaChoicesWithLabels,
             'support_choices' => $supportChoicesWithLabels,
@@ -73,7 +72,7 @@ class ItemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager->persist($item->getMedia());
-            $entityManager->persist($item->getSupport()); 
+            $entityManager->persist($item->getSupport());
             $entityManager->persist($item->getBox());
             $entityManager->persist($item->getEdition()); 
 

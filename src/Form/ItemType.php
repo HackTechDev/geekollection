@@ -28,6 +28,16 @@ class ItemType extends AbstractType
             'choices' => $options['support_choices'],
             'label' => 'Support',
             'choice_label' => 'label',
+        ])
+        ->add('box', ChoiceType::class, [
+            'choices' => $options['box_choices'],
+            'label' => 'Box',
+            'choice_label' => 'label', 
+        ])
+        ->add('edition', ChoiceType::class, [
+            'choices' => $options['edition_choices'],
+            'label' => 'Edition',
+            'choice_label' => 'label',
         ]);
     }
 
@@ -38,6 +48,8 @@ class ItemType extends AbstractType
             'data_class' => Item::class,
             'media_choices' => [], 
             'support_choices' => [], 
+            'box_choices' => [], 
+            'edition_choices' => [], 
         ]);
     }
 }
