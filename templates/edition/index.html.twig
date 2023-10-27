@@ -7,9 +7,11 @@
         <h2 class="text-center mt-5 mb-3">Edition Manager</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-primary" href="{{ path('app_edition_new') }}"> 
-                    Create New Edition 
-                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-outline-primary" href="{{ path('app_edition_new') }}"> 
+                        Create New Edition 
+                    </a>
+                {% endif %}
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
@@ -31,14 +33,17 @@
                                     href="{{ path('app_edition_show', {'id': edition.id}) }}">
                                     Show
                                 </a>
-                                <a
-                                    class="btn btn-outline-success"
-                                    href="{{ path('app_edition_edit', {'id': edition.id}) }}">
-                                    Edit
-                                </a>
-  
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ edition.id) }}">
-                                <button class="btn btn-outline-danger">Delete</button>
+
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a
+                                        class="btn btn-outline-success"
+                                        href="{{ path('app_edition_edit', {'id': edition.id}) }}">
+                                        Edit
+                                    </a>
+    
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ edition.id) }}">
+                                    <button class="btn btn-outline-danger">Delete</button>
+                                {% endif %}
                             </form>
                         </td>
                     </tr>

@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/support')]
 class SupportController extends AbstractController
@@ -23,6 +25,7 @@ class SupportController extends AbstractController
     }
 
     #[Route('/new', name: 'app_support_new', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $support = new Support();
@@ -43,6 +46,7 @@ class SupportController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_support_show', methods: ['GET'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function show(Support $support): Response
     {
         return $this->render('support/show.html.twig', [
@@ -51,6 +55,7 @@ class SupportController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_support_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function edit(Request $request, Support $support, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SupportType::class, $support);
@@ -69,6 +74,7 @@ class SupportController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_support_delete', methods: ['POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function delete(Request $request, Support $support, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$support->getId(), $request->request->get('_token'))) {

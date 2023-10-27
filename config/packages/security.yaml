@@ -41,7 +41,11 @@ security:
         - { path: ^/library, roles: ROLE_USER }
         - { path: ^/media, roles: ROLE_USER }
         - { path: ^/support, roles: ROLE_USER }
-        
+
+    role_hierarchy:
+        ROLE_USER: ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+
 when@test:
     security:
         password_hashers:

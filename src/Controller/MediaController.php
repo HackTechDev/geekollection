@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/media')]
 class MediaController extends AbstractController
@@ -23,6 +25,7 @@ class MediaController extends AbstractController
     }
 
     #[Route('/new', name: 'app_media_new', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $media = new Media();
@@ -51,6 +54,7 @@ class MediaController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_media_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function edit(Request $request, Media $media, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MediaType::class, $media);
@@ -69,6 +73,7 @@ class MediaController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_media_delete', methods: ['POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function delete(Request $request, Media $media, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$media->getId(), $request->request->get('_token'))) {

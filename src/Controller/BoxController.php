@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/box')]
 class BoxController extends AbstractController
@@ -23,6 +25,7 @@ class BoxController extends AbstractController
     }
 
     #[Route('/new', name: 'app_box_new', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $box = new Box();
@@ -51,6 +54,7 @@ class BoxController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_box_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function edit(Request $request, Box $box, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(BoxType::class, $box);
@@ -69,6 +73,7 @@ class BoxController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_box_delete', methods: ['POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function delete(Request $request, Box $box, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$box->getId(), $request->request->get('_token'))) {

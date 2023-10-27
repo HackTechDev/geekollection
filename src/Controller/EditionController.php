@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/edition')]
 class EditionController extends AbstractController
@@ -23,6 +25,7 @@ class EditionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_edition_new', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $edition = new Edition();
@@ -51,6 +54,7 @@ class EditionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_edition_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function edit(Request $request, Edition $edition, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EditionType::class, $edition);
@@ -69,6 +73,7 @@ class EditionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_edition_delete', methods: ['POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function delete(Request $request, Edition $edition, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$edition->getId(), $request->request->get('_token'))) {

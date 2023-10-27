@@ -14,6 +14,8 @@ use App\Repository\MediaRepository;
 use App\Repository\SupportRepository;
 use App\Repository\BoxRepository;
 use App\Repository\EditionRepository;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/item')]
 class ItemController extends AbstractController
@@ -148,6 +150,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_item_delete', methods: ['POST'])]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
     public function delete(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {

@@ -7,9 +7,11 @@
         <h2 class="text-center mt-5 mb-3">Box Manager</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-primary" href="{{ path('app_box_new') }}"> 
-                    Create New Box 
-                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-outline-primary" href="{{ path('app_box_new') }}"> 
+                        Create New Box 
+                    </a>
+                {% endif %}
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
@@ -31,14 +33,16 @@
                                     href="{{ path('app_box_show', {'id': box.id}) }}">
                                     Show
                                 </a>
-                                <a
-                                    class="btn btn-outline-success"
-                                    href="{{ path('app_box_edit', {'id': box.id}) }}">
-                                    Edit
-                                </a>
-  
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ box.id) }}">
-                                <button class="btn btn-outline-danger">Delete</button>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a
+                                        class="btn btn-outline-success"
+                                        href="{{ path('app_box_edit', {'id': box.id}) }}">
+                                        Edit
+                                    </a>
+    
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ box.id) }}">
+                                    <button class="btn btn-outline-danger">Delete</button>
+                                    {% endif %}
                             </form>
                         </td>
                     </tr>

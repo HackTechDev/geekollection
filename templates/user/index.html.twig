@@ -4,12 +4,15 @@
   
 {% block body %}
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">Symfony User Manager</h2>
+    {% if is_granted('ROLE_ADMIN') %}
+        <h2 class="text-center mt-5 mb-3">User Manager</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-primary" href="{{ path('app_user_new') }}"> 
-                    Create New User 
-                </a>
+                
+                    <a class="btn btn-outline-primary" href="{{ path('app_user_new') }}"> 
+                        Create New User 
+                    </a>
+                
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
@@ -50,6 +53,7 @@
                 </table>
             </div>
         </div>
+    {% endif %}    
     </div>
   
 {% endblock %}
