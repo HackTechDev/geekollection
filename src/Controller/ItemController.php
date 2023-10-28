@@ -16,6 +16,7 @@ use App\Repository\BoxRepository;
 use App\Repository\EditionRepository;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Route('/item')]
 class ItemController extends AbstractController
@@ -171,9 +172,34 @@ class ItemController extends AbstractController
     }
 
     #[Route('/{id}/object', name: 'call_api_object', methods: ['POST'])]
-    public function all_api_object(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function all_api_object(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
-        //die("call_api_object: " . $item->getTitle());
+        $apiUrl = "https://www.dvdfr.com/api/search.php?title='" . urlencode($item->getTitle()) . "'";
+
+        try {
+            $response = $httpClient->request('GET', $apiUrl);
+            $content = $response->getContent();
+
+            $xml = new \SimpleXMLElement($content);
+
+            if ($xml) {
+                foreach ($xml->dvd as $dvd) {
+                    $id = (int)$dvd->id;
+                    $cover = (string)$dvd->cover;
+                    $title = (string)$dvd->titres->fr;
+
+                    echo "ID: $id<br>";
+                    echo "Cover: $cover<br>";
+                    echo "Title: $title<br>";
+                }
+                die();
+            } else {
+                return new Response('Error parsing XML', 500);
+            }
+        } catch (\Exception $e) {
+            return new Response('An error occurred: ' . $e->getMessage(), 500);
+        }
+
         return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
     }
 
