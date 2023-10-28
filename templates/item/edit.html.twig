@@ -13,6 +13,17 @@
             </div>
             <div class="card-body">
                 {% include 'item/_form.html.twig' with {'button_label': 'Update Item', 'button_color': 'btn-outline-success'}  %}
+
+                <form method="POST" action="{{ path('call_api_oeuvre', {'id': item.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('call_api_oeuvre' ~ item.id) }}">
+                    <button class="btn btn-outline-success mt-3">Call API Oeuvre</button>
+                </form>
+
+                <form method="POST" action="{{ path('call_api_object', {'id': item.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('call_api_object' ~ item.id) }}">
+                    <button class="btn btn-outline-success mt-3">Call API Object</button>
+                </form>
+
             </div>
         </div>
     </div>

@@ -160,4 +160,21 @@ class ItemController extends AbstractController
 
         return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+    #[Route('/{id}/oeuvre', name: 'call_api_oeuvre', methods: ['POST'])]
+    public function call_api_oeuvre(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    {
+        //die("call_api_oeuvre: " . $item->getTitle());
+        return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/object', name: 'call_api_object', methods: ['POST'])]
+    public function all_api_object(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    {
+        //die("call_api_object: " . $item->getTitle());
+        return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+    }
+
 }
