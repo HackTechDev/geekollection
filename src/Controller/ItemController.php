@@ -119,6 +119,7 @@ class ItemController extends AbstractController
         $website = $request->query->get('website');
         $selectedId = $request->query->get('selectedId');
 
+        // TODO: Optimize this piece of if code
         if ($website == null && $selectedId == null) {
             $objectLinkData =  "na";
         } else {
@@ -130,6 +131,8 @@ class ItemController extends AbstractController
         } else { 
             $objectLinkData = $item->getObjectlink();
         }
+
+        // TODO: Add antidoublon function
 
 
         $mediaChoices = $this->mediaRepository->findAll();
