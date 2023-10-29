@@ -193,7 +193,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/{id}/object', name: 'call_api_object', methods: ['POST'])]
-    public function all_api_object(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
+    public function call_api_object(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
      
         $itemId = $item->getId();
