@@ -9,11 +9,14 @@
             <div class="card-header">
             </div>
             <div class="card-body">
-                <ul>
+                <ul class="list-group">
                     {% for data in listData %}
-                        <li>
-                            ID: {{ data.id }} | Title: {{ data.title }} | Gencode: {{ data.gencode }}<br>
-                            <img src="{{ data.cover }}" alt="Object Cover" width="200px"><br>
+                        <li class="list-group-item">
+                            <input type="radio" name="selectedData" id="data_{{ data.id }}">
+                            <label for="data_{{ data.id }}">
+                                ID: {{ data.id }} | Title: {{ data.title }} | Gencode: {{ data.gencode }}<br>
+                                <img src="{{ data.cover }}" alt="Object Cover" width="200px"><br>
+                            </label>
                         </li>
                     {% endfor %}
                 </ul>
