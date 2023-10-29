@@ -188,11 +188,15 @@ class ItemController extends AbstractController
                     $cover = (string)$dvd->cover;
                     $title = (string)$dvd->titres->fr;
 
-                    echo "ID: $id<br>";
-                    echo "Cover: $cover<br>";
-                    echo "Title: $title<br>";
+                    $dvdData[] = [
+                        'id' => $id,
+                        'cover' => $cover,
+                        'title' => $title,
+                    ];
                 }
-                die();
+                return $this->render('item/listobject.html.twig', [
+                    'dvdData' => $dvdData,
+                ]);
             } else {
                 return new Response('Error parsing XML', 500);
             }

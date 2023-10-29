@@ -1,0 +1,20 @@
+{# templates/listobject.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Data Page</title>
+</head>
+<body>
+    <h1>API Data Page</h1>
+
+    <ul>
+        {% for dvd in dvdData %}
+            <li>
+                ID: {{ dvd.id }}<br>
+                Cover: <img src="{{ dvd.cover }}" alt="DVD Cover"><br>
+                Title: {{ dvd.title }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
