@@ -2,6 +2,7 @@
 
 {{ form_start(form) }}
 
+{{ objectLinkData }}
 <div class="form-group">
     {{ form_label(form.title) }}
     {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
@@ -39,7 +40,11 @@
 
 <div class="form-group">
     {{ form_label(form.objectlink) }}
-    {{ form_widget(form.objectlink, {'attr': {'class': 'form-control'}, 'block_prefix': 'textarea' }) }}
+    {{ form_widget(form.objectlink, {
+        'attr': {'class': 'form-control'}, 
+        'block_prefix': 'textarea',
+        'value': objectLinkData
+    }) }}
 </div>
 
 <button class="btn {{ button_color|default('btn-outline-primary') }}  mt-3">{{ button_label|default('Save Item') }}</button>

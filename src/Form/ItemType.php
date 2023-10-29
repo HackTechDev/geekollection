@@ -19,37 +19,37 @@ class ItemType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
- $builder
-        ->add('title')
-        ->add('gencode')
-        ->add('media', ChoiceType::class, [
-            'choices' => $options['media_choices'],
-            'label' => 'Media',
-            'choice_label' => 'label', 
-        ])
-        ->add('support', ChoiceType::class, [
-            'choices' => $options['support_choices'],
-            'label' => 'Support',
-            'choice_label' => 'label',
-        ])
-        ->add('box', ChoiceType::class, [
-            'choices' => $options['box_choices'],
-            'label' => 'Box',
-            'choice_label' => 'label', 
-        ])
-        ->add('edition', ChoiceType::class, [
-            'choices' => $options['edition_choices'],
-            'label' => 'Edition',
-            'choice_label' => 'label',
-        ])
-        ->add('oeuvrelink', TextareaType::class, [
-            'label' => 'Oeuvre Link',
-            'attr' => ['class' => 'form-control'],
-        ])
-        ->add('objectlink', TextareaType::class, [
-            'label' => 'Object Link',
-            'attr' => ['class' => 'form-control'],
-        ])
+        $builder
+            ->add('title')
+            ->add('gencode')
+            ->add('media', ChoiceType::class, [
+                'choices' => $options['media_choices'],
+                'label' => 'Media',
+                'choice_label' => 'label', 
+            ])
+            ->add('support', ChoiceType::class, [
+                'choices' => $options['support_choices'],
+                'label' => 'Support',
+                'choice_label' => 'label',
+            ])
+            ->add('box', ChoiceType::class, [
+                'choices' => $options['box_choices'],
+                'label' => 'Box',
+                'choice_label' => 'label', 
+            ])
+            ->add('edition', ChoiceType::class, [
+                'choices' => $options['edition_choices'],
+                'label' => 'Edition',
+                'choice_label' => 'label',
+            ])
+            ->add('oeuvrelink', TextareaType::class, [
+                'label' => 'Oeuvre Link',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('objectlink', TextareaType::class, [
+                'label' => 'Object Link',
+                'attr' => ['class' => 'form-control'],
+            ])
         ;
     }
 

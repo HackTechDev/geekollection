@@ -115,6 +115,18 @@ class ItemController extends AbstractController
     public function edit(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         
+        $website = $request->query->get('website');
+        $selectedId = $request->query->get('selectedId');
+        $objectLinkData = $website . ":" . $selectedId;
+
+
+        if( $item->getObjectlink() == "na" && $objectLinkData != "") {
+            $objectLinkData = $objectLinkData;
+        } else { 
+            $objectLinkData = $item->getObjectlink();
+        }
+
+      
         $mediaChoices = $this->mediaRepository->findAll();
         $supportChoices = $this->supportRepository->findAll();
         $boxChoices = $this->boxRepository->findAll();
@@ -147,6 +159,7 @@ class ItemController extends AbstractController
         return $this->render('item/edit.html.twig', [
             'item' => $item,
             'form' => $form,
+            'objectLinkData' => $objectLinkData
         ]);
     }
 
@@ -174,23 +187,25 @@ class ItemController extends AbstractController
     #[Route('/{id}/object', name: 'call_api_object', methods: ['POST'])]
     public function all_api_object(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
-        
-        if ($item->getTitle() != "" && $item->getGencode() == "") {
+     
+        $itemId = $item->getId();
+
+        if ($item->getTitle() != "" && $item->getGencode() == "na") {
             $apiUrlSearch = "https://www.dvdfr.com/api/search.php?title='" . urlencode($item->getTitle()) . "'";
         }
 
-        if ( ($item->getTitle() == "" || $item->getTitle() != "") && $item->getGencode() != "") {
+        if ( $item->getTitle() != "" && $item->getGencode() != "na") {
             $apiUrlSearch = "https://www.dvdfr.com/api/search.php?gencode=" . urlencode($item->getGencode());
         }
 
         $gencode = $item->getGencode();
-
+        
         try {
             $response = $httpClient->request('GET', $apiUrlSearch);
             $content = $response->getContent();
 
             $xml = new \SimpleXMLElement($content);
-
+            
             if ($xml) {
                 foreach ($xml->dvd as $dvd) {
                     $id = (int)$dvd->id;
@@ -204,7 +219,9 @@ class ItemController extends AbstractController
                         'gencode' => $gencode,
                     ];
                 }
+              
                 return $this->render('item/listobject.html.twig', [
+                    'itemId' => $itemId,
                     'listData' => $listData,
                 ]);
             } else {
@@ -215,6 +232,16 @@ class ItemController extends AbstractController
         }
 
         return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/edit-dvd', name: 'edit_dvd', methods: ['POST'])]
+    public function editDVD(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    {
+        $website = "dvdfr";
+        $selectedId = $request->request->get('selectedData');
+        $itemId = $request->request->get('itemId');
+
+        return $this->redirectToRoute('app_item_edit', ['id' => $itemId, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
     }
 
 }
