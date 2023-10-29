@@ -48,6 +48,9 @@ class Item
     #[ORM\Column(length: 255)]
     private ?string $oeuvrelink = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $gencode = null;
+
     public function __construct()
     {
         $this->libraries = new ArrayCollection();
@@ -194,6 +197,18 @@ class Item
     public function setOeuvrelink(string $oeuvrelink): static
     {
         $this->oeuvrelink = $oeuvrelink;
+
+        return $this;
+    }
+
+    public function getGencode(): ?string
+    {
+        return $this->gencode;
+    }
+
+    public function setGencode(string $gencode): static
+    {
+        $this->gencode = $gencode;
 
         return $this;
     }

@@ -8,6 +8,11 @@
 </div>
 
 <div class="form-group">
+    {{ form_label(form.gencode) }}
+    {{ form_widget(form.gencode, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="form-group">
     {{ form_label(form.media) }}
     {{ form_widget(form.media, {'attr': {'class': 'form-control'}}) }}
 </div>

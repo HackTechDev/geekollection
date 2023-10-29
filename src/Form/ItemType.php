@@ -21,6 +21,7 @@ class ItemType extends AbstractType
     {
  $builder
         ->add('title')
+        ->add('gencode')
         ->add('media', ChoiceType::class, [
             'choices' => $options['media_choices'],
             'label' => 'Media',

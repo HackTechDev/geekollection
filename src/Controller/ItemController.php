@@ -174,10 +174,19 @@ class ItemController extends AbstractController
     #[Route('/{id}/object', name: 'call_api_object', methods: ['POST'])]
     public function all_api_object(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
-        $apiUrl = "https://www.dvdfr.com/api/search.php?title='" . urlencode($item->getTitle()) . "'";
+        
+        if ($item->getTitle() != "" && $item->getGencode() == "") {
+            $apiUrlSearch = "https://www.dvdfr.com/api/search.php?title='" . urlencode($item->getTitle()) . "'";
+        }
+
+        if ( ($item->getTitle() == "" || $item->getTitle() != "") && $item->getGencode() != "") {
+            $apiUrlSearch = "https://www.dvdfr.com/api/search.php?gencode=" . urlencode($item->getGencode());
+        }
+
+        $gencode = $item->getGencode();
 
         try {
-            $response = $httpClient->request('GET', $apiUrl);
+            $response = $httpClient->request('GET', $apiUrlSearch);
             $content = $response->getContent();
 
             $xml = new \SimpleXMLElement($content);
@@ -188,14 +197,15 @@ class ItemController extends AbstractController
                     $cover = (string)$dvd->cover;
                     $title = (string)$dvd->titres->fr;
 
-                    $dvdData[] = [
+                    $listData[] = [
                         'id' => $id,
                         'cover' => $cover,
                         'title' => $title,
+                        'gencode' => $gencode,
                     ];
                 }
                 return $this->render('item/listobject.html.twig', [
-                    'dvdData' => $dvdData,
+                    'listData' => $listData,
                 ]);
             } else {
                 return new Response('Error parsing XML', 500);

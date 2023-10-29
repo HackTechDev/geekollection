@@ -1,20 +1,23 @@
-{# templates/listobject.html.twig #}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>API Data Page</title>
-</head>
-<body>
-    <h1>API Data Page</h1>
-
-    <ul>
-        {% for dvd in dvdData %}
-            <li>
-                ID: {{ dvd.id }}<br>
-                Cover: <img src="{{ dvd.cover }}" alt="DVD Cover"><br>
-                Title: {{ dvd.title }}<br>
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+  
+{% block title %}All API results{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">All API results</h2>
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+                <ul>
+                    {% for data in listData %}
+                        <li>
+                            ID: {{ data.id }} | Title: {{ data.title }} | Gencode: {{ data.gencode }}<br>
+                            <img src="{{ data.cover }}" alt="Object Cover" width="200px"><br>
+                        </li>
+                    {% endfor %}
+                </ul>
+           </div>
+        </div>
+    </div>
+{% endblock %}
