@@ -12,7 +12,7 @@
                 <ul class="list-group">
                     {% for data in listData %}
                         <li class="list-group-item">
-                            <form method="post" action="{{ path('edit_dvd', {'id': itemId}) }}">
+                            <form method="post" action="{{ path('edit_objectlink', {'id': itemId}) }}">
                                 <input type="text" name="itemId" id="itemId_{{ itemId }}" value={{ itemId }}>
                                 <input type="radio" name="selectedData" id="data_{{ data.id }}" value={{ data.id }}>
                                 <label for="data_{{ data.id }}">

@@ -242,7 +242,7 @@ class ItemController extends AbstractController
         return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/edit-dvd', name: 'edit_dvd', methods: ['POST'])]
+    #[Route('/{id}/edit-objectlink', name: 'edit_objectlink', methods: ['POST'])]
     public function editDVD(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         $website = "dvdfr";
