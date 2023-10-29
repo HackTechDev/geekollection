@@ -87,6 +87,7 @@ class ItemController extends AbstractController
 
         return $this->render('item/new.html.twig', [
             'item' => $item,
+            'objectLinkData' => "na",
             'form' => $form->createView(),
         ]);
     }
@@ -117,16 +118,20 @@ class ItemController extends AbstractController
         
         $website = $request->query->get('website');
         $selectedId = $request->query->get('selectedId');
-        $objectLinkData = $website . ":" . $selectedId;
 
+        if ($website == null && $selectedId == null) {
+            $objectLinkData =  "na";
+        } else {
+            $objectLinkData = $website . ":" . $selectedId;
+        }
 
-        if( $item->getObjectlink() == "na" && $objectLinkData != "") {
+        if( ($item->getObjectlink() == "na" || $item->getObjectlink() == ":") && $objectLinkData != "") {
             $objectLinkData = $objectLinkData;
         } else { 
             $objectLinkData = $item->getObjectlink();
         }
 
-      
+
         $mediaChoices = $this->mediaRepository->findAll();
         $supportChoices = $this->supportRepository->findAll();
         $boxChoices = $this->boxRepository->findAll();
