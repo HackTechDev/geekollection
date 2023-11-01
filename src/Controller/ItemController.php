@@ -151,9 +151,6 @@ class ItemController extends AbstractController
             }
         }
 
-        // TODO: Add antidoublon function
-
-
         $mediaChoices = $this->mediaRepository->findAll();
         $supportChoices = $this->supportRepository->findAll();
         $boxChoices = $this->boxRepository->findAll();
@@ -227,7 +224,11 @@ class ItemController extends AbstractController
     public function call_api_oeuvre(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
         $itemId = $item->getId();
-        
+
+        // TODO: Add antidoublon function
+        // Search in the local database the searching movie
+        // If not existing then call the API
+
         $apiUrlSearch = 'https://api.themoviedb.org/3/search/movie?query="' . urlencode($item->getTitle()) . '"&include_adult=false&language=en-US&page=1';
         $header = [
             'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMTQzMDE4ZDVmNjU5MDQ2MjYzOWZhZjc3ZTMwYzhiYiIsInN1YiI6IjYwYzA3MmJiMzlhNDVkMDAyOWJlYmIwNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Y0_gHkSz_QQwG7-4xTi3OXL0y1cQdA7b8nHr1E8hqQQ',
@@ -280,6 +281,11 @@ class ItemController extends AbstractController
     {
      
         $itemId = $item->getId();
+
+        // TODO: Add antidoublon function
+        // Search in the local database the searching movie
+        // If not existing then call the API
+
 
         if ($item->getTitle() != "" && $item->getGencode() == "na") {
             $apiUrlSearch = "https://www.dvdfr.com/api/search.php?title='" . urlencode($item->getTitle()) . "'";
