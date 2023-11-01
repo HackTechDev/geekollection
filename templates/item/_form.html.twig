@@ -34,7 +34,11 @@
 
 <div class="form-group">
     {{ form_label(form.oeuvrelink) }}
-    {{ form_widget(form.oeuvrelink, {'attr': {'class': 'form-control'}, 'block_prefix': 'textarea' }) }}
+    {{ form_widget(form.oeuvrelink, {
+        'attr': {'class': 'form-control'}, 
+        'block_prefix': 'textarea',
+        'value': oeuvreLinkData
+    }) }}
 </div>
 
 <div class="form-group">

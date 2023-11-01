@@ -17,6 +17,8 @@ use App\Repository\EditionRepository;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 #[Route('/item')]
 class ItemController extends AbstractController
@@ -118,18 +120,35 @@ class ItemController extends AbstractController
         
         $website = $request->query->get('website');
         $selectedId = $request->query->get('selectedId');
+        $from = $request->query->get('from');
 
         // TODO: Optimize this piece of if code
-        if ($website == null && $selectedId == null) {
-            $objectLinkData =  "na";
-        } else {
-            $objectLinkData = $website . ":" . $selectedId;
+        if ($from == 'object') {
+            if ($website == null && $selectedId == null) {
+                $objectLinkData = "na";
+            } else {
+                $objectLinkData = $website . ":" . $selectedId;
+            }
+
+            if( ($item->getObjectlink() == "na" || $item->getObjectlink() == ":") && $objectLinkData != "") {
+                $objectLinkData = $objectLinkData;
+            } else { 
+                $objectLinkData = $item->getObjectlink();
+            }
         }
 
-        if( ($item->getObjectlink() == "na" || $item->getObjectlink() == ":") && $objectLinkData != "") {
-            $objectLinkData = $objectLinkData;
-        } else { 
-            $objectLinkData = $item->getObjectlink();
+        if ($from == 'oeuvre') {
+            if ($website == null && $selectedId == null) {
+                $oeuvreLinkData = "na";
+            } else {
+                $oeuvreLinkData = $website . ":" . $selectedId;
+            }
+
+            if( ($item->getOeuvrelink() == "na" || $item->getOeuvrelink() == ":") && $oeuvreLinkData != "") {
+                $oeuvreLinkData = $oeuvreLinkData;
+            } else { 
+                $oeuvreLinkData = $item->getOeuvrelink();
+            }
         }
 
         // TODO: Add antidoublon function
@@ -164,10 +183,29 @@ class ItemController extends AbstractController
             return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        if ($from == 'object') {
+            return $this->render('item/edit.html.twig', [
+                'item' => $item,
+                'form' => $form,
+                'objectLinkData' => $objectLinkData,
+                'oeuvreLinkData' => $item->getOeuvrelink()
+            ]);
+        }
+
+        if ($from == 'oeuvre') {
+            return $this->render('item/edit.html.twig', [
+                'item' => $item,
+                'form' => $form,
+                'objectLinkData' => $item->getObjectlink(),
+                'oeuvreLinkData' => $oeuvreLinkData
+            ]);
+        }
+
         return $this->render('item/edit.html.twig', [
             'item' => $item,
             'form' => $form,
-            'objectLinkData' => $objectLinkData
+            'objectLinkData' => $item->getObjectlink(),
+            'oeuvreLinkData' => $item->getOeuvrelink()
         ]);
     }
 
@@ -186,10 +224,56 @@ class ItemController extends AbstractController
 
 
     #[Route('/{id}/oeuvre', name: 'call_api_oeuvre', methods: ['POST'])]
-    public function call_api_oeuvre(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function call_api_oeuvre(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
+        $itemId = $item->getId();
+        
+        $apiUrlSearch = 'https://api.themoviedb.org/3/search/movie?query="' . urlencode($item->getTitle()) . '"&include_adult=false&language=en-US&page=1';
+        $header = [
+            'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMTQzMDE4ZDVmNjU5MDQ2MjYzOWZhZjc3ZTMwYzhiYiIsInN1YiI6IjYwYzA3MmJiMzlhNDVkMDAyOWJlYmIwNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Y0_gHkSz_QQwG7-4xTi3OXL0y1cQdA7b8nHr1E8hqQQ',
+            'accept' => 'application/json',
+        ];
+        
+        $httpClient = HttpClient::create();
+
+        try {
+            $response = $httpClient->request('GET', $apiUrlSearch, [
+                'headers' => $header,
+            ]);
+    
+            if ($response->getStatusCode() === 200) {
+                $jsonResponse = $response->getContent();
+    
+                $listData = json_decode($jsonResponse, true);
+
+                return $this->render('item/listoeuvre.html.twig', [
+                    'itemId' => $itemId,
+                    'listData' => $listData,
+                ]);
+                
+
+            } else {
+                return new Response('Error parsing JSON', 500);
+            }
+        } catch (ClientException $e) {
+            return new Response('An error occurred: ' . $e->getMessage(), 500);
+        }
+
+
         return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/edit-oeuvrelink', name: 'edit_oeuvrelink', methods: ['POST'])]
+    public function edit_oeuvrelink(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    {
+        $website = "themoviedb";
+        $selectedId = $request->request->get('selectedData');
+        $itemId = $request->request->get('itemId');
+        $from = 'oeuvre';
+
+        return $this->redirectToRoute('app_item_edit', ['id' => $itemId, 'from' => $from, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
+    }
+
 
     #[Route('/{id}/object', name: 'call_api_object', methods: ['POST'])]
     public function call_api_object(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
@@ -247,8 +331,9 @@ class ItemController extends AbstractController
         $website = "dvdfr";
         $selectedId = $request->request->get('selectedData');
         $itemId = $request->request->get('itemId');
+        $from = "object";
 
-        return $this->redirectToRoute('app_item_edit', ['id' => $itemId, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_item_edit', ['id' => $itemId, 'from' => $from, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
     }
 
 }
