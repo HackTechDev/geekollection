@@ -188,7 +188,6 @@ class ItemController extends AbstractController
     #[Route('/{id}/oeuvre', name: 'call_api_oeuvre', methods: ['POST'])]
     public function call_api_oeuvre(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
-        //die("call_api_oeuvre: " . $item->getTitle());
         return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -243,7 +242,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/{id}/edit-objectlink', name: 'edit_objectlink', methods: ['POST'])]
-    public function editDVD(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function edit_objectlink(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         $website = "dvdfr";
         $selectedId = $request->request->get('selectedData');
