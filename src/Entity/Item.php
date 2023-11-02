@@ -150,7 +150,7 @@ class Item
 
     public function __toString()
     {
-        return $this->getTitle();
+        return $this->getTitle() . " / " . $this->getSupport()->label . " / " . $this->getBox()->label . " / " . $this->getEdition()->label;
     }
 
     public function getBox(): ?Box

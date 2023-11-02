@@ -90,6 +90,7 @@ class ItemController extends AbstractController
         return $this->render('item/new.html.twig', [
             'item' => $item,
             'objectLinkData' => "na",
+            'oeuvreLinkData' => "na",
             'form' => $form->createView(),
         ]);
     }

@@ -27,26 +27,6 @@ class LibraryType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
-/*
-        $connectedUser = $this->security->getUser();
-        $userId = $connectedUser->getId();
-
-        $builder
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $er)  use ($userId)  {
-                    return $er->createQueryBuilder('u')
-                        ->andWhere('u.id = :userId')
-                        ->setParameter('userId', $userId);
-                },
-                'choice_label' => 'email',
-                'multiple' => true,
-                'data' => [$connectedUser],
-            ])
-            ->add('item')
-        ;
-  */
         $builder
             ->add('item')
             ->add('information', TextareaType::class, [
