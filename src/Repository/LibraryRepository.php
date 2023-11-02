@@ -21,7 +21,6 @@ class LibraryRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Library::class);
-        $this->entityManager = $entityManager;
     }
 
     public function findAllForUser($userId)

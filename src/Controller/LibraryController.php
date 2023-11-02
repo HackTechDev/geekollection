@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -29,14 +29,12 @@ class LibraryController extends AbstractController
     }
 
     #[Route('/', name: 'app_library_index', methods: ['GET'])]
-    public function index(LibraryRepository $libraryRepository, Security $security): Response
+    public function index(LibraryRepository $libraryRepository, UserRepository $userRepository): Response
     {
-        $user = $security->getUser();
+        $user = $userRepository->findIdByEmail($this->getUser()->getUserIdentifier());
 
-        if ($user) {
-            $userId = $user->getId();
-        }
-
+        $userId = $user->getId();
+       
         $records =  $libraryRepository->findAllForUser($userId);
 
         return $this->render('library/index.html.twig', [
