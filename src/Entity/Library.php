@@ -30,6 +30,12 @@ class Library
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
+    #[ORM\Column(length: 255)]
+    private ?string $information = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -111,6 +117,30 @@ class Library
     {
         $this->updated_at = $updated_at;
  
+        return $this;
+    }
+
+    public function getInformation(): ?string
+    {
+        return $this->information;
+    }
+
+    public function setInformation(string $information): static
+    {
+        $this->information = $information;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
         return $this;
     }
 }

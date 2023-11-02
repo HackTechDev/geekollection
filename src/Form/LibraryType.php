@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class LibraryType extends AbstractType
 {
@@ -47,7 +48,16 @@ class LibraryType extends AbstractType
         ;
   */
         $builder
-        ->add('item'); // Other fields you want to include
+            ->add('item')
+            ->add('information', TextareaType::class, [
+                'label' => 'Information',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'attr' => ['class' => 'form-control'],
+            ])
+        ;
 
     }
 
