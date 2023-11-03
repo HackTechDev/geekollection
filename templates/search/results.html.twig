@@ -1,14 +1,27 @@
 {# templates/search/results.html.twig #}
 
 {% extends 'base.html.twig' %}
-
+  
+{% block title %}Project index{% endblock %}
+  
 {% block body %}
-    <h1>Search Results</h1>
-    <ul>
-        {% for item in results %}
-            <li>
-                {{ item.title }}
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Search Item</h2>
+        <div class="card">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body">
+                <h1>Search Results</h1>
+                <ul>
+                    {% for item in results %}
+                        <li>
+                            {{ item.title }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+  
 {% endblock %}
