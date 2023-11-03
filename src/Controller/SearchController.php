@@ -19,8 +19,10 @@ class SearchController extends AbstractController
     {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
-      
+        $userid = $request->query->get('userid');
 
+
+      
         if ($form->isSubmitted() && $form->isValid()) {
             
             
@@ -31,6 +33,7 @@ class SearchController extends AbstractController
             
             
             return $this->render('search/results.html.twig', [
+                'userid' => $userid,
                 'results' => $results,
             ]);
         }

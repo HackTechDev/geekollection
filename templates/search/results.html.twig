@@ -1,8 +1,6 @@
-{# templates/search/results.html.twig #}
-
 {% extends 'base.html.twig' %}
   
-{% block title %}Project index{% endblock %}
+{% block title %}Item list{% endblock %}
   
 {% block body %}
     <div class="container">
@@ -13,10 +11,18 @@
             </div>
             <div class="card-body">
                 <h1>Search Results</h1>
-                <ul>
+                <ul class="list-group">
                     {% for item in results %}
-                        <li>
-                            {{ item.title }}
+                        <li class="list-group-item">>
+                            <form method="post" action="">
+                                <input type="text" name="userid" id="userid_{{ userid }}" value={{ userid }}>
+                                <input type="radio" name="selectedData" id="data_{{ item.id }}" value={{ item.id }}>
+                                <label for="data_{{ item.id }}">
+                                    {{ item.id }} : {{ item.title }} | {{item.media.label}} | {{item.support.label}}
+                                 </label>
+                                <button type="submit" class="btn btn-primary">Select this film</button>
+                            </form>
+
                         </li>
                     {% endfor %}
                 </ul>

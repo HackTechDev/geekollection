@@ -35,10 +35,13 @@ class LibraryController extends AbstractController
 
         $userId = $user->getId();
        
-        $records =  $libraryRepository->findAllForUser($userId);
+        
+
+        $libraries =  $libraryRepository->findAllForUser($userId);
 
         return $this->render('library/index.html.twig', [
-            'libraries' => $records,
+            'libraries' => $libraries,
+            'userid' => $userId,
         ]);
     }
 
@@ -111,4 +114,5 @@ class LibraryController extends AbstractController
 
         return $this->redirectToRoute('app_library_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
