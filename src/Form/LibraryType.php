@@ -28,7 +28,6 @@ class LibraryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('item')
             ->add('information', TextareaType::class, [
                 'label' => 'Information',
                 'attr' => ['class' => 'form-control'],

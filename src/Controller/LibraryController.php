@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Library;
 use App\Form\LibraryType;
-use App\Entity\User;
+use App\Entity\Item;
 use App\Repository\LibraryRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -75,11 +75,19 @@ class LibraryController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_library_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Library $library, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Library $library, EntityManagerInterface $entityManager, $id): Response
     {
+        $library = $entityManager->getRepository(Library::class)->find($id);
+        $item = $library->getItem();
+        $titles = [];
+        foreach ($library->getItem() as $item) {
+            $titles[] = $item->getTitle();
+        }
+
         $form = $this->createForm(LibraryType::class, $library);
         $form->handleRequest($request);
 
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
@@ -89,6 +97,7 @@ class LibraryController extends AbstractController
         return $this->render('library/edit.html.twig', [
             'library' => $library,
             'form' => $form,
+            'title' => $titles[0]
         ]);
     }
 
