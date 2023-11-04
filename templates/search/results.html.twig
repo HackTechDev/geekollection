@@ -14,7 +14,7 @@
                 <ul class="list-group">
                     {% for item in results %}
                         <li class="list-group-item">>
-                            <form method="post" action="">
+                            <form method="post" action="{{ path('add_item_library', {'id': item.id}) }}">
                                 <input type="text" name="itemid" id="itemid_{{ item.id }}" value={{ item.id }}>
                                 <input type="radio" name="selectedData" id="data_{{ item.id }}" value={{ item.id }}>
                                 <label for="data_{{ item.id }}">

@@ -115,4 +115,14 @@ class LibraryController extends AbstractController
         return $this->redirectToRoute('app_library_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/add-item-library', name: 'add_item_library', methods: ['POST'])]
+    public function add_item_library(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    {
+        $selectedId = $request->request->get('selectedData');
+     
+        var_dump($selectedId);
+       
+        die("here");
+        return $this->redirectToRoute('app_item_edit', ['selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
+    }
 }
