@@ -116,13 +116,37 @@ class LibraryController extends AbstractController
     }
 
     #[Route('/{id}/add-item-library', name: 'add_item_library', methods: ['POST'])]
-    public function add_item_library(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function add_item_library(Request $request, Item $item, EntityManagerInterface $entityManager, Security $security): Response
     {
+        
+        $user = $security->getUser(); // Get the connected user
+        $library = new Library();
+        
+        $library->addUser($user); // Set the connected user in the Library entity
+        
         $selectedId = $request->request->get('selectedData');
-     
-        var_dump($selectedId);
-       
-        die("here");
-        return $this->redirectToRoute('app_item_edit', ['selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
+
+        dd($selectedId);
+        $item = $entityManager->getRepository(Item::class)->find($selectedId);
+        $library->addItem($item);
+  
+
+        $form = $this->createForm(LibraryType::class, $library);
+        
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+        
+            $entityManager->persist($library);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('app_library_index', [], Response::HTTP_SEE_OTHER);
+        }
+      
+        return $this->render('library/new.html.twig', [
+            'library' => $library,
+            'form' => $form,
+        ]);
+
     }
 }
