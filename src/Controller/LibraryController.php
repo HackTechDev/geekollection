@@ -81,6 +81,8 @@ class LibraryController extends AbstractController
     public function edit(Request $request, Library $library, EntityManagerInterface $entityManager, $id): Response
     {
         $library = $entityManager->getRepository(Library::class)->find($id);
+
+        // Todo: review this method to get the title
         $item = $library->getItem();
         $titles = [];
         foreach ($library->getItem() as $item) {
@@ -131,6 +133,7 @@ class LibraryController extends AbstractController
             $library->addItem($item);
             $library->setSelectedData($selectedId);
 
+            // Todo: review this method to get the title
             $item = $library->getItem();
             $titles = [];
             foreach ($library->getItem() as $item) {
