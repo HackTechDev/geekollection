@@ -143,4 +143,17 @@ class Library
 
         return $this;
     }
+
+
+    private $selectedData;
+
+    public function getSelectedData()
+    {
+        return $this->selectedData;
+    }
+
+    public function setSelectedData($selectedData)
+    {
+        $this->selectedData= $selectedData;
+    }
 }

@@ -125,27 +125,37 @@ class LibraryController extends AbstractController
         $library->addUser($user); // Set the connected user in the Library entity
         
         $selectedId = $request->request->get('selectedData');
+        
+        if ($selectedId != null) {
+            $item = $entityManager->getRepository(Item::class)->find($selectedId);
+            $library->addItem($item);
+            $library->setSelectedData($selectedId);
 
-        dd($selectedId);
-        $item = $entityManager->getRepository(Item::class)->find($selectedId);
-        $library->addItem($item);
-  
+            $item = $library->getItem();
+            $titles = [];
+            foreach ($library->getItem() as $item) {
+                $titles[] = $item->getTitle();
+            }
+        }
+        
 
         $form = $this->createForm(LibraryType::class, $library);
-        
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
-        
+            $item = $entityManager->getRepository(Item::class)->find($library->getSelectedData());
+            $library->addItem($item);
+
             $entityManager->persist($library);
             $entityManager->flush();
     
             return $this->redirectToRoute('app_library_index', [], Response::HTTP_SEE_OTHER);
         }
-      
+ 
         return $this->render('library/new.html.twig', [
             'library' => $library,
             'form' => $form,
+            'title' => $titles[0]
         ]);
 
     }

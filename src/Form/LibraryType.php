@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class LibraryType extends AbstractType
 {
@@ -37,6 +38,8 @@ class LibraryType extends AbstractType
                 'label' => 'Description',
                 'attr' => ['class' => 'form-control'],
             ])
+            ->add('selectedData', HiddenType::class,
+            )
         ;
 
     }
