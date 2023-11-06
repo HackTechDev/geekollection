@@ -13,9 +13,9 @@
                 <h1>Search Results</h1>
                 <ul class="list-group">
                     {% for item in results %}
-                        <li class="list-group-item">>
+                        <li class="list-group-item">
                             <form method="post" action="{{ path('add_item_library', {'id': item.id}) }}">
-                                <input type="text" name="itemid" id="itemid_{{ item.id }}" value={{ item.id }}>
+                                <input type="hidden" name="itemid" id="itemid_{{ item.id }}" value={{ item.id }}>
                                 <input type="radio" name="selectedData" id="data_{{ item.id }}" value={{ item.id }}>
                                 <label for="data_{{ item.id }}">
                                     {{ item.id }} : {{ item.title }} | {{item.media.label}} | {{item.support.label}}
