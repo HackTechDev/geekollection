@@ -13,12 +13,13 @@
                 <h1>Search Results</h1>
                 <ul class="list-group">
                     {% for movie in results %}
-                        <li class="list-group-movie">>
+                        <li class="list-group-movie">
                             <form method="post" action="{{ path('add_movie_item', {'id': movie.id}) }}">
-                                <input type="text" name="movieid" id="movieid_{{ movie.id }}" value={{ movie.id }}>
+                                <input type="hidden" name="movieid" id="movieid_{{ movie.id }}" value={{ movie.id }}>
                                 <input type="radio" name="selectedData" id="data_{{ movie.id }}" value={{ movie.id }}>
                                 <label for="data_{{ movie.id }}">
                                     {{ movie.id }} : {{ movie.title }} | {{movie.media.label}} | {{movie.support.label}}
+
                                  </label>
                                 <button type="submit" class="btn btn-primary">Select this film</button>
                             </form>
