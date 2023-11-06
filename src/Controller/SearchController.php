@@ -29,13 +29,12 @@ class SearchController extends AbstractController
             $itemRepository = $entityManager->getRepository(Item::class);
             $results = $itemRepository->findByTitle($searchCriteria);
             
-            
             return $this->render('search/results.html.twig', [
                 'results' => $results,
             ]);
         }
 
-
+        
         return $this->render('search/index.html.twig', [
             'form' => $form,
         ]);
