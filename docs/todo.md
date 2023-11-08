@@ -3,6 +3,12 @@ To do
 
 1/ Ajouter le champ "releasedate" dans la table item
 
+moviereleasedate
+moviereleasecountry
+
+boxreleasedate
+boxreleasecountry
+
 2/ Ajouter le champs "information" dans la table library_item (car information est spéfique à l'utilisateur)
 
 3/ Pour les tables support, media, edition : Ajouter 
