@@ -27,12 +27,12 @@ class Media
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'media', targetEntity: Item::class)]
-    private Collection $items;
+    #[ORM\OneToMany(mappedBy: 'media', targetEntity: Movie::class)]
+    private Collection $movies;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->movies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,29 +77,29 @@ class Media
     }
 
     /**
-     * @return Collection<int, Item>
+     * @return Collection<int, Movie>
      */
-    public function getItems(): Collection
+    public function getMovies(): Collection
     {
-        return $this->items;
+        return $this->movies;
     }
 
-    public function addItem(Item $item): static
+    public function addMovie(Movie $movie): static
     {
-        if (!$this->items->contains($item)) {
-            $this->items->add($item);
-            $item->setMedia($this);
+        if (!$this->movies->contains($movie)) {
+            $this->movies->add($movie);
+            $movie->setMedia($this);
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): static
+    public function removeMovie(Movie $movie): static
     {
-        if ($this->items->removeElement($item)) {
+        if ($this->movies->removeElement($movie)) {
             // set the owning side to null (unless already changed)
-            if ($item->getMedia() === $this) {
-                $item->setMedia(null);
+            if ($movie->getMedia() === $this) {
+                $movie->setMedia(null);
             }
         }
 

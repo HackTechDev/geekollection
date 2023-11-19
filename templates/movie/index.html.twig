@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
   
-{% block title %}Item index{% endblock %}
+{% block title %}Movie index{% endblock %}
   
 {% block body %}
    
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">Item Manager</h2>
+        <h2 class="text-center mt-5 mb-3">Movie Manager</h2>
         <div class="card">
             <div class="card-header">
                 
-                    <a class="btn btn-outline-primary" href="{{ path('app_item_new') }}"> 
-                        Create New Item 
+                    <a class="btn btn-outline-primary" href="{{ path('app_movie_new') }}"> 
+                        Create New Movie 
                     </a>
                
             </div>
@@ -28,33 +28,33 @@
                         <th>Date Updated</th>
                         <th width="240px">Action</th>
                     </tr>
-                    {% for item in items %}
+                    {% for movie in movies %}
                         <tr>
-                            <td>{{ item.id }}</td>
-                            <td>{{ item.title }}</td>
-                            <td>{{ item.gencode }}</td>
-                            <td>{{ item.media.label }}</td>
-                            <td>{{ item.support.label }}</td>
-                            <td>{{ item.box.label }}</td>
-                            <td>{{ item.edition.label }}</td>
+                            <td>{{ movie.id }}</td>
+                            <td>{{ movie.title }}</td>
+                            <td>{{ movie.gencode }}</td>
+                            <td>{{ movie.media.label }}</td>
+                            <td>{{ movie.support.label }}</td>
+                            <td>{{ movie.box.label }}</td>
+                            <td>{{ movie.edition.label }}</td>
 
-                            <td>{{ item.createdAt ? item.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ item.updatedAt ? item.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ movie.createdAt ? movie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ movie.updatedAt ? movie.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
-                                <form method="post" action="{{ path('app_item_delete', {'id': item.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <form method="post" action="{{ path('app_movie_delete', {'id': movie.id}) }}" onsubmit="return confirm('Are you sure you want to delete this movie?');">
                                         <a
                                             class="btn btn-outline-info"
-                                            href="{{ path('app_item_show', {'id': item.id}) }}">
+                                            href="{{ path('app_movie_show', {'id': movie.id}) }}">
                                             Show
                                         </a>
                                     
                                         <a
                                             class="btn btn-outline-success"
-                                            href="{{ path('app_item_edit', {'id': item.id}) }}">
+                                            href="{{ path('app_movie_edit', {'id': movie.id}) }}">
                                             Edit
                                         </a>
                                         {% if is_granted('ROLE_ADMIN') %}
-                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ movie.id) }}">
                                             <button class="btn btn-outline-danger">Delete</button>
                                         {% endif %}
                                 </form>

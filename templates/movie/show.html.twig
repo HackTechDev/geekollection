@@ -1,46 +1,46 @@
 {% extends 'base.html.twig' %}
   
-{% block title %}Item{% endblock %}
+{% block title %}Movie{% endblock %}
   
 {% block body %}
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">Show Item</h2>
+        <h2 class="text-center mt-5 mb-3">Show Movie</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-info float-right" href="{{ path('app_item_index') }}"> 
-                    View All Items
+                <a class="btn btn-outline-info float-right" href="{{ path('app_movie_index') }}"> 
+                    View All Movies
                 </a>
             </div>
             <div class="card-body">
                 <b class="text-muted">Id:</b>
-                <p>{{ item.id }}</p>
+                <p>{{ movie.id }}</p>
                 <b class="text-muted">Title:</b>
-                <p>{{ item.title }}</p>
+                <p>{{ movie.title }}</p>
                 <b class="text-muted">Gencode:</b>
-                <p>{{ item.gencode }}</p>
+                <p>{{ movie.gencode }}</p>
 
                 <b class="text-muted">Media:</b>
-                <p>{{ item.media.label }}</p>
+                <p>{{ movie.media.label }}</p>
 
                 <b class="text-muted">Support:</b>
-                <p>{{item.support.label }}</p>
+                <p>{{movie.support.label }}</p>
 
                 <b class="text-muted">Box:</b>
-                <p>{{ item.box.label }}</p>
+                <p>{{ movie.box.label }}</p>
 
                 <b class="text-muted">Edition:</b>
-                <p>{{item.edition.label }}</p>
+                <p>{{movie.edition.label }}</p>
 
                 <b class="text-muted">Oeuvrelink:</b>
-                <p>{{ item.oeuvrelink }}</p>
+                <p>{{ movie.oeuvrelink }}</p>
 
                 <b class="text-muted">Objectlink:</b>
-                <p>{{item.objectlink }}</p>
+                <p>{{movie.objectlink }}</p>
 
                 <b class="text-muted">Date Created:</b>
-                <p>{{ item.createdAt ? item.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+                <p>{{ movie.createdAt ? movie.createdAt|date('Y-m-d H:i:s') : '' }}</p>
                 <b class="text-muted">Date Updated:</b>
-                <p>{{ item.updatedAt ? item.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
+                <p>{{ movie.updatedAt ? movie.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
             </div>
         </div>
     </div>

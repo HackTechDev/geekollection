@@ -27,12 +27,12 @@ class Box
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'box', targetEntity: Item::class)]
-    private Collection $items;
+    #[ORM\OneToMany(mappedBy: 'box', targetEntity: Movie::class)]
+    private Collection $movies;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->movies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,29 +77,29 @@ class Box
     }
 
     /**
-     * @return Collection<int, Item>
+     * @return Collection<int, Movie>
      */
-    public function getItems(): Collection
+    public function getMovies(): Collection
     {
-        return $this->items;
+        return $this->movies;
     }
 
-    public function addItem(Item $item): static
+    public function addMovie(Movie $movie): static
     {
-        if (!$this->items->contains($item)) {
-            $this->items->add($item);
-            $item->setBox($this);
+        if (!$this->movies->contains($movie)) {
+            $this->movies->add($movie);
+            $movie->setBox($this);
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): static
+    public function removeMovie(Movie $movie): static
     {
-        if ($this->items->removeElement($item)) {
+        if ($this->movies->removeElement($movie)) {
             // set the owning side to null (unless already changed)
-            if ($item->getBox() === $this) {
-                $item->setBox(null);
+            if ($movie->getBox() === $this) {
+                $movie->setBox(null);
             }
         }
 

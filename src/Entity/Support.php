@@ -27,12 +27,12 @@ class Support
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'support', targetEntity: Item::class)]
-    private Collection $items;
+    #[ORM\OneToMany(mappedBy: 'support', targetEntity: Movie::class)]
+    private Collection $movies;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->movies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,29 +77,29 @@ class Support
     }
 
     /**
-     * @return Collection<int, Item>
+     * @return Collection<int, Movie>
      */
-    public function getItems(): Collection
+    public function getMovies(): Collection
     {
-        return $this->items;
+        return $this->movies;
     }
 
-    public function addItem(Item $item): static
+    public function addMovie(Movie $movie): static
     {
-        if (!$this->items->contains($item)) {
-            $this->items->add($item);
-            $item->setSupport($this);
+        if (!$this->movies->contains($movie)) {
+            $this->movies->add($movie);
+            $movie->setSupport($this);
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): static
+    public function removeMovie(Movie $movie): static
     {
-        if ($this->items->removeElement($item)) {
+        if ($this->movies->removeElement($movie)) {
             // set the owning side to null (unless already changed)
-            if ($item->getSupport() === $this) {
-                $item->setSupport(null);
+            if ($movie->getSupport() === $this) {
+                $movie->setSupport(null);
             }
         }
 

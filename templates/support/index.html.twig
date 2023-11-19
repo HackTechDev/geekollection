@@ -27,7 +27,7 @@
                         <td>{{ support.createdAt ? support.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ support.updatedAt ? support.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>
-                            <form method="post" action="{{ path('app_support_delete', {'id': support.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <form method="post" action="{{ path('app_support_delete', {'id': support.id}) }}" onsubmit="return confirm('Are you sure you want to delete this movie?');">
                                 <a
                                     class="btn btn-outline-info"
                                     href="{{ path('app_support_show', {'id': support.id}) }}">

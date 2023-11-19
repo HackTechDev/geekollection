@@ -34,7 +34,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/item, roles: ROLE_USER }
+        - { path: ^/movie, roles: ROLE_USER }
         - { path: ^/account, roles: ROLE_USER }
         - { path: ^/box, roles: ROLE_USER }
         - { path: ^/edition, roles: ROLE_USER }

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Library;
 use App\Form\LibraryType;
-use App\Entity\Item;
+use App\Entity\Movie;
 use App\Repository\LibraryRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -83,10 +83,10 @@ class LibraryController extends AbstractController
         $library = $entityManager->getRepository(Library::class)->find($id);
 
         // Todo: review this method to get the title
-        $item = $library->getItem();
+        $movie = $library->getMovie();
         $titles = [];
-        foreach ($library->getItem() as $item) {
-            $titles[] = $item->getTitle();
+        foreach ($library->getMovie() as $movie) {
+            $titles[] = $movie->getTitle();
         }
 
         $form = $this->createForm(LibraryType::class, $library);
@@ -117,8 +117,8 @@ class LibraryController extends AbstractController
         return $this->redirectToRoute('app_library_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/add-item-library', name: 'add_item_library', methods: ['POST'])]
-    public function add_item_library(Request $request, Item $item, EntityManagerInterface $entityManager, Security $security): Response
+    #[Route('/{id}/add-movie-library', name: 'add_movie_library', methods: ['POST'])]
+    public function add_movie_library(Request $request, Movie $movie, EntityManagerInterface $entityManager, Security $security): Response
     {
         
         $user = $security->getUser(); // Get the connected user
@@ -129,15 +129,15 @@ class LibraryController extends AbstractController
         $selectedId = $request->request->get('selectedData');
         
         if ($selectedId != null) {
-            $item = $entityManager->getRepository(Item::class)->find($selectedId);
-            $library->addItem($item);
+            $movie = $entityManager->getRepository(Movie::class)->find($selectedId);
+            $library->addMovie($movie);
             $library->setSelectedData($selectedId);
 
             // Todo: review this method to get the title
-            $item = $library->getItem();
+            $movie = $library->getMovie();
             $titles = [];
-            foreach ($library->getItem() as $item) {
-                $titles[] = $item->getTitle();
+            foreach ($library->getMovie() as $movie) {
+                $titles[] = $movie->getTitle();
             }
         }
         
@@ -146,8 +146,8 @@ class LibraryController extends AbstractController
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
-            $item = $entityManager->getRepository(Item::class)->find($library->getSelectedData());
-            $library->addItem($item);
+            $movie = $entityManager->getRepository(Movie::class)->find($library->getSelectedData());
+            $library->addMovie($movie);
 
             $entityManager->persist($library);
             $entityManager->flush();

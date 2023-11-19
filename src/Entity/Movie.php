@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ItemRepository;
+use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Entity(repositoryClass: ItemRepository::class)]
-class Item
+#[ORM\Entity(repositoryClass: MovieRepository::class)]
+class Movie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,10 +19,10 @@ class Item
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\ManyToOne(inversedBy: 'items')]
+    #[ORM\ManyToOne(inversedBy: 'movies')]
     private ?Media $media = null;
 
-    #[ORM\ManyToOne(inversedBy: 'items')]
+    #[ORM\ManyToOne(inversedBy: 'movies')]
     private ?Support $support = null;
 
     #[Gedmo\Timestampable(on:"update")]
@@ -33,13 +33,13 @@ class Item
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\ManyToMany(targetEntity: Library::class, mappedBy: 'item')]
+    #[ORM\ManyToMany(targetEntity: Library::class, mappedBy: 'movie')]
     private Collection $libraries;
 
-    #[ORM\ManyToOne(inversedBy: 'items')]
+    #[ORM\ManyToOne(inversedBy: 'movies')]
     private ?Box $box = null;
 
-    #[ORM\ManyToOne(inversedBy: 'items')]
+    #[ORM\ManyToOne(inversedBy: 'movies')]
     private ?Edition $edition = null;
 
     #[ORM\Column(length: 255)]
@@ -133,7 +133,7 @@ class Item
     {
         if (!$this->libraries->contains($library)) {
             $this->libraries->add($library);
-            $library->addItem($this);
+            $library->addMovie($this);
         }
 
         return $this;
@@ -142,7 +142,7 @@ class Item
     public function removeLibrary(Library $library): static
     {
         if ($this->libraries->removeElement($library)) {
-            $library->removeItem($this);
+            $library->removeMovie($this);
         }
 
         return $this;

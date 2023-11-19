@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\SearchType;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Item;
+use App\Entity\Movie;
 
 class SearchController extends AbstractController
 {
@@ -26,8 +26,8 @@ class SearchController extends AbstractController
             
             $searchCriteria = $form->getData()['inputsearch'];
             
-            $itemRepository = $entityManager->getRepository(Item::class);
-            $results = $itemRepository->findByTitle($searchCriteria);
+            $movieRepository = $entityManager->getRepository(Movie::class);
+            $results = $movieRepository->findByTitle($searchCriteria);
             
             
             return $this->render('search/results.html.twig', [

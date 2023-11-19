@@ -91,10 +91,10 @@ INSERT INTO `edition` (`id`, `label`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `item`
+-- Structure de la table `movie`
 --
 
-CREATE TABLE `item` (
+CREATE TABLE `movie` (
   `id` int(11) NOT NULL,
   `media_id` int(11) DEFAULT NULL,
   `support_id` int(11) DEFAULT NULL,
@@ -109,10 +109,10 @@ CREATE TABLE `item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `item`
+-- Déchargement des données de la table `movie`
 --
 
-INSERT INTO `item` (`id`, `media_id`, `support_id`, `box_id`, `edition_id`, `title`, `created_at`, `updated_at`, `objectlink`, `oeuvrelink`, `gencode`) VALUES
+INSERT INTO `movie` (`id`, `media_id`, `support_id`, `box_id`, `edition_id`, `title`, `created_at`, `updated_at`, `objectlink`, `oeuvrelink`, `gencode`) VALUES
 (2, 1, 2, 1, 1, 'la la land', '2023-11-01 22:07:46', '2023-11-01 22:07:46', 'dvdfr:300093', 'themoviedb:381083', '3475001053022'),
 (3, 1, 1, 1, 1, 'New-York 1997', '2023-11-01 22:19:15', '2023-11-01 22:19:15', 'dvdfr:7700', 'themoviedb:1103', 'na'),
 (4, 1, 1, 1, 1, 'Opération Dragon', '2023-10-29 16:14:22', '2023-10-29 16:14:22', 'dvdfr:1085', 'na', 'na'),
@@ -149,19 +149,19 @@ INSERT INTO `library` (`id`, `created_at`, `updated_at`, `information`, `descrip
 -- --------------------------------------------------------
 
 --
--- Structure de la table `library_item`
+-- Structure de la table `library_movie`
 --
 
-CREATE TABLE `library_item` (
+CREATE TABLE `library_movie` (
   `library_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL
+  `movie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `library_item`
+-- Déchargement des données de la table `library_movie`
 --
 
-INSERT INTO `library_item` (`library_id`, `item_id`) VALUES
+INSERT INTO `library_movie` (`library_id`, `movie_id`) VALUES
 (4, 3),
 (5, 4),
 (6, 2),
@@ -300,9 +300,9 @@ ALTER TABLE `edition`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `item`
+-- Index pour la table `movie`
 --
-ALTER TABLE `item`
+ALTER TABLE `movie`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_1F1B251EEA9FDD75` (`media_id`),
   ADD KEY `IDX_1F1B251E315B405` (`support_id`),
@@ -316,12 +316,12 @@ ALTER TABLE `library`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `library_item`
+-- Index pour la table `library_movie`
 --
-ALTER TABLE `library_item`
-  ADD PRIMARY KEY (`library_id`,`item_id`),
+ALTER TABLE `library_movie`
+  ADD PRIMARY KEY (`library_id`,`movie_id`),
   ADD KEY `IDX_B9D4EF73FE2541D7` (`library_id`),
-  ADD KEY `IDX_B9D4EF73126F525E` (`item_id`);
+  ADD KEY `IDX_B9D4EF73126F525E` (`movie_id`);
 
 --
 -- Index pour la table `library_user`
@@ -376,9 +376,9 @@ ALTER TABLE `edition`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `item`
+-- AUTO_INCREMENT pour la table `movie`
 --
-ALTER TABLE `item`
+ALTER TABLE `movie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
@@ -416,19 +416,19 @@ ALTER TABLE `user`
 --
 
 --
--- Contraintes pour la table `item`
+-- Contraintes pour la table `movie`
 --
-ALTER TABLE `item`
+ALTER TABLE `movie`
   ADD CONSTRAINT `FK_1F1B251E315B405` FOREIGN KEY (`support_id`) REFERENCES `support` (`id`),
   ADD CONSTRAINT `FK_1F1B251E74281A5E` FOREIGN KEY (`edition_id`) REFERENCES `edition` (`id`),
   ADD CONSTRAINT `FK_1F1B251ED8177B3F` FOREIGN KEY (`box_id`) REFERENCES `box` (`id`),
   ADD CONSTRAINT `FK_1F1B251EEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
--- Contraintes pour la table `library_item`
+-- Contraintes pour la table `library_movie`
 --
-ALTER TABLE `library_item`
-  ADD CONSTRAINT `FK_B9D4EF73126F525E` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE,
+ALTER TABLE `library_movie`
+  ADD CONSTRAINT `FK_B9D4EF73126F525E` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_B9D4EF73FE2541D7` FOREIGN KEY (`library_id`) REFERENCES `library` (`id`) ON DELETE CASCADE;
 
 --

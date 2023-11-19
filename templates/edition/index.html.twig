@@ -27,7 +27,7 @@
                         <td>{{ edition.createdAt ? edition.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ edition.updatedAt ? edition.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>
-                            <form method="post" action="{{ path('app_edition_delete', {'id': edition.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <form method="post" action="{{ path('app_edition_delete', {'id': edition.id}) }}" onsubmit="return confirm('Are you sure you want to delete this movie?');">
                                 <a
                                     class="btn btn-outline-info"
                                     href="{{ path('app_edition_show', {'id': edition.id}) }}">

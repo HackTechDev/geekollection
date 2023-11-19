@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Item;
+use App\Entity\Movie;
 use App\Entity\Media;
 use App\Entity\Support;
 use App\Form\MediaType;
@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
-class ItemType extends AbstractType
+class MovieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -57,7 +57,7 @@ class ItemType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Item::class,
+            'data_class' => Movie::class,
             'media_choices' => [], 
             'support_choices' => [], 
             'box_choices' => [], 

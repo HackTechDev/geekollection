@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Item;
-use App\Form\ItemType;
-use App\Repository\ItemRepository;
+use App\Entity\Movie;
+use App\Form\MovieType;
+use App\Repository\MovieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +20,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\Exception\ClientException;
 
-#[Route('/item')]
-class ItemController extends AbstractController
+#[Route('/movie')]
+class MovieController extends AbstractController
 {
 
     private $mediaRepository;
@@ -39,18 +39,18 @@ class ItemController extends AbstractController
         $this->editionRepository = $editionRepository;
     }
 
-    #[Route('/', name: 'app_item_index', methods: ['GET'])]
-    public function index(ItemRepository $itemRepository): Response
+    #[Route('/', name: 'app_movie_index', methods: ['GET'])]
+    public function index(MovieRepository $movieRepository): Response
     {
-        return $this->render('item/index.html.twig', [
-            'items' => $itemRepository->findAll(),
+        return $this->render('movie/index.html.twig', [
+            'movies' => $movieRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_item_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_movie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $item = new Item();
+        $movie = new Movie();
 
         $mediaChoices = $this->mediaRepository->findAll();
         $supportChoices = $this->supportRepository->findAll();
@@ -63,7 +63,7 @@ class ItemController extends AbstractController
         $boxChoicesWithLabels = $this->getChoicesWithLabels($boxChoices, 'label');
         $editionChoicesWithLabels = $this->getChoicesWithLabels($editionChoices, 'label');
         
-        $form = $this->createForm(ItemType::class, $item, [
+        $form = $this->createForm(MovieType::class, $movie, [
             'media_choices' => $mediaChoicesWithLabels,
             'support_choices' => $supportChoicesWithLabels,
             'box_choices' => $boxChoicesWithLabels,
@@ -76,19 +76,19 @@ class ItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager->persist($item->getMedia());
-            $entityManager->persist($item->getSupport());
-            $entityManager->persist($item->getBox());
-            $entityManager->persist($item->getEdition()); 
+            $entityManager->persist($movie->getMedia());
+            $entityManager->persist($movie->getSupport());
+            $entityManager->persist($movie->getBox());
+            $entityManager->persist($movie->getEdition()); 
 
-            $entityManager->persist($item);
+            $entityManager->persist($movie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('item/new.html.twig', [
-            'item' => $item,
+        return $this->render('movie/new.html.twig', [
+            'movie' => $movie,
             'objectLinkData' => "na",
             'oeuvreLinkData' => "na",
             'form' => $form->createView(),
@@ -107,16 +107,16 @@ class ItemController extends AbstractController
     }
 
   
-    #[Route('/{id}', name: 'app_item_show', methods: ['GET'])]
-    public function show(Item $item): Response
+    #[Route('/{id}', name: 'app_movie_show', methods: ['GET'])]
+    public function show(Movie $movie): Response
     {
-        return $this->render('item/show.html.twig', [
-            'item' => $item,
+        return $this->render('movie/show.html.twig', [
+            'movie' => $movie,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_item_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'app_movie_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Movie $movie, EntityManagerInterface $entityManager): Response
     {
         
         $website = $request->query->get('website');
@@ -131,10 +131,10 @@ class ItemController extends AbstractController
                 $objectLinkData = $website . ":" . $selectedId;
             }
 
-            if( ($item->getObjectlink() == "na" || $item->getObjectlink() == ":") && $objectLinkData != "") {
+            if( ($movie->getObjectlink() == "na" || $movie->getObjectlink() == ":") && $objectLinkData != "") {
                 $objectLinkData = $objectLinkData;
             } else { 
-                $objectLinkData = $item->getObjectlink();
+                $objectLinkData = $movie->getObjectlink();
             }
         }
 
@@ -145,10 +145,10 @@ class ItemController extends AbstractController
                 $oeuvreLinkData = $website . ":" . $selectedId;
             }
 
-            if( ($item->getOeuvrelink() == "na" || $item->getOeuvrelink() == ":") && $oeuvreLinkData != "") {
+            if( ($movie->getOeuvrelink() == "na" || $movie->getOeuvrelink() == ":") && $oeuvreLinkData != "") {
                 $oeuvreLinkData = $oeuvreLinkData;
             } else { 
-                $oeuvreLinkData = $item->getOeuvrelink();
+                $oeuvreLinkData = $movie->getOeuvrelink();
             }
         }
 
@@ -157,7 +157,7 @@ class ItemController extends AbstractController
         $boxChoices = $this->boxRepository->findAll();
         $editionChoices = $this->editionRepository->findAll();
 
-        $form = $this->createForm(ItemType::class, $item, [
+        $form = $this->createForm(MovieType::class, $movie, [
             'media_choices' => $mediaChoices,
             'support_choices' => $supportChoices,
             'box_choices' => $boxChoices,
@@ -168,69 +168,69 @@ class ItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager->persist($item->getMedia()); 
-            $entityManager->persist($item->getSupport());
-            $entityManager->persist($item->getBox()); 
-            $entityManager->persist($item->getEdition());
+            $entityManager->persist($movie->getMedia()); 
+            $entityManager->persist($movie->getSupport());
+            $entityManager->persist($movie->getBox()); 
+            $entityManager->persist($movie->getEdition());
             
-            // Then persist the Item entity
-            $entityManager->persist($item);
+            // Then persist the Movie entity
+            $entityManager->persist($movie);
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
         }
 
         if ($from == 'object') {
-            return $this->render('item/edit.html.twig', [
-                'item' => $item,
+            return $this->render('movie/edit.html.twig', [
+                'movie' => $movie,
                 'form' => $form,
                 'objectLinkData' => $objectLinkData,
-                'oeuvreLinkData' => $item->getOeuvrelink()
+                'oeuvreLinkData' => $movie->getOeuvrelink()
             ]);
         }
 
         if ($from == 'oeuvre') {
-            return $this->render('item/edit.html.twig', [
-                'item' => $item,
+            return $this->render('movie/edit.html.twig', [
+                'movie' => $movie,
                 'form' => $form,
-                'objectLinkData' => $item->getObjectlink(),
+                'objectLinkData' => $movie->getObjectlink(),
                 'oeuvreLinkData' => $oeuvreLinkData
             ]);
         }
 
-        return $this->render('item/edit.html.twig', [
-            'item' => $item,
+        return $this->render('movie/edit.html.twig', [
+            'movie' => $movie,
             'form' => $form,
-            'objectLinkData' => $item->getObjectlink(),
-            'oeuvreLinkData' => $item->getOeuvrelink()
+            'objectLinkData' => $movie->getObjectlink(),
+            'oeuvreLinkData' => $movie->getOeuvrelink()
         ]);
     }
 
-    #[Route('/{id}', name: 'app_item_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_movie_delete', methods: ['POST'])]
     #[IsGranted(new Expression('is_granted("ROLE_ADMIN")'))]
-    public function delete(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Movie $movie, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($item);
+        if ($this->isCsrfTokenValid('delete'.$movie->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($movie);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
     }
 
 
 
     #[Route('/{id}/oeuvre', name: 'call_api_oeuvre', methods: ['POST'])]
-    public function call_api_oeuvre(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
+    public function call_api_oeuvre(Request $request, Movie $movie, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
-        $itemId = $item->getId();
+        $movieId = $movie->getId();
 
         // TODO: Add antidoublon function
         // Search in the local database the searching movie
         // If not existing then call the API
 
-        $apiUrlSearch = 'https://api.themoviedb.org/3/search/movie?query="' . urlencode($item->getTitle()) . '"&include_adult=false&language=en-US&page=1';
+        $apiUrlSearch = 'https://api.themoviedb.org/3/search/movie?query="' . urlencode($movie->getTitle()) . '"&include_adult=false&language=en-US&page=1';
         $header = [
             'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMTQzMDE4ZDVmNjU5MDQ2MjYzOWZhZjc3ZTMwYzhiYiIsInN1YiI6IjYwYzA3MmJiMzlhNDVkMDAyOWJlYmIwNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Y0_gHkSz_QQwG7-4xTi3OXL0y1cQdA7b8nHr1E8hqQQ',
             'accept' => 'application/json',
@@ -248,8 +248,8 @@ class ItemController extends AbstractController
     
                 $listData = json_decode($jsonResponse, true);
 
-                return $this->render('item/listoeuvre.html.twig', [
-                    'itemId' => $itemId,
+                return $this->render('movie/listoeuvre.html.twig', [
+                    'movieId' => $movieId,
                     'listData' => $listData,
                 ]);
                 
@@ -262,41 +262,41 @@ class ItemController extends AbstractController
         }
 
 
-        return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/edit-oeuvrelink', name: 'edit_oeuvrelink', methods: ['POST'])]
-    public function edit_oeuvrelink(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function edit_oeuvrelink(Request $request, Movie $movie, EntityManagerInterface $entityManager): Response
     {
         $website = "themoviedb";
         $selectedId = $request->request->get('selectedData');
-        $itemId = $request->request->get('itemId');
+        $movieId = $request->request->get('movieId');
         $from = 'oeuvre';
 
-        return $this->redirectToRoute('app_item_edit', ['id' => $itemId, 'from' => $from, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_movie_edit', ['id' => $movieId, 'from' => $from, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
     }
 
 
     #[Route('/{id}/object', name: 'call_api_object', methods: ['POST'])]
-    public function call_api_object(Request $request, Item $item, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
+    public function call_api_object(Request $request, Movie $movie, EntityManagerInterface $entityManager, HttpClientInterface $httpClient): Response
     {
      
-        $itemId = $item->getId();
+        $movieId = $movie->getId();
 
         // TODO: Add antidoublon function
         // Search in the local database the searching movie
         // If not existing then call the API
 
 
-        if ($item->getTitle() != "" && $item->getGencode() == "na") {
-            $apiUrlSearch = "https://www.dvdfr.com/api/search.php?title='" . urlencode($item->getTitle()) . "'";
+        if ($movie->getTitle() != "" && $movie->getGencode() == "na") {
+            $apiUrlSearch = "https://www.dvdfr.com/api/search.php?title='" . urlencode($movie->getTitle()) . "'";
         }
 
-        if ( $item->getTitle() != "" && $item->getGencode() != "na") {
-            $apiUrlSearch = "https://www.dvdfr.com/api/search.php?gencode=" . urlencode($item->getGencode());
+        if ( $movie->getTitle() != "" && $movie->getGencode() != "na") {
+            $apiUrlSearch = "https://www.dvdfr.com/api/search.php?gencode=" . urlencode($movie->getGencode());
         }
 
-        $gencode = $item->getGencode();
+        $gencode = $movie->getGencode();
         
         try {
             $response = $httpClient->request('GET', $apiUrlSearch);
@@ -318,8 +318,8 @@ class ItemController extends AbstractController
                     ];
                 }
               
-                return $this->render('item/listobject.html.twig', [
-                    'itemId' => $itemId,
+                return $this->render('movie/listobject.html.twig', [
+                    'movieId' => $movieId,
                     'listData' => $listData,
                 ]);
             } else {
@@ -329,18 +329,18 @@ class ItemController extends AbstractController
             return new Response('An error occurred: ' . $e->getMessage(), 500);
         }
 
-        return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/edit-objectlink', name: 'edit_objectlink', methods: ['POST'])]
-    public function edit_objectlink(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function edit_objectlink(Request $request, Movie $movie, EntityManagerInterface $entityManager): Response
     {
         $website = "dvdfr";
         $selectedId = $request->request->get('selectedData');
-        $itemId = $request->request->get('itemId');
+        $movieId = $request->request->get('movieId');
         $from = "object";
 
-        return $this->redirectToRoute('app_item_edit', ['id' => $itemId, 'from' => $from, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_movie_edit', ['id' => $movieId, 'from' => $from, 'website' => $website, 'selectedId' => $selectedId], Response::HTTP_SEE_OTHER);
     }
 
 }

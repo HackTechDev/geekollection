@@ -19,8 +19,8 @@ class Library
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'libraries')]
     private Collection $user;
 
-    #[ORM\ManyToMany(targetEntity: Item::class, inversedBy: 'libraries')]
-    private Collection $item;
+    #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: 'libraries')]
+    private Collection $movie;
 
     #[Gedmo\Timestampable(on:"update")]
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -39,7 +39,7 @@ class Library
     public function __construct()
     {
         $this->user = new ArrayCollection();
-        $this->item = new ArrayCollection();
+        $this->movie = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,25 +72,25 @@ class Library
     }
 
     /**
-     * @return Collection<int, Item>
+     * @return Collection<int, Movie>
      */
-    public function getItem(): Collection
+    public function getMovie(): Collection
     {
-        return $this->item;
+        return $this->movie;
     }
 
-    public function addItem(Item $item): static
+    public function addMovie(Movie $movie): static
     {
-        if (!$this->item->contains($item)) {
-            $this->item->add($item);
+        if (!$this->movie->contains($movie)) {
+            $this->movie->add($movie);
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): static
+    public function removeMovie(Movie $movie): static
     {
-        $this->item->removeElement($item);
+        $this->movie->removeElement($movie);
 
         return $this;
     }

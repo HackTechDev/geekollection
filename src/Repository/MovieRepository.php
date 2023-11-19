@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Item;
+use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Item>
+ * @extends ServiceEntityRepository<Movie>
  *
- * @method Item|null find($id, $lockMode = null, $lockVersion = null)
- * @method Item|null findOneBy(array $criteria, array $orderBy = null)
- * @method Item[]    findAll()
- * @method Item[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Movie|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Movie|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Movie[]    findAll()
+ * @method Movie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ItemRepository extends ServiceEntityRepository
+class MovieRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Item::class);
+        parent::__construct($registry, Movie::class);
     }
 
     /**
-     * @return Item[] Returns an array of Item objects
+     * @return Movie[] Returns an array of Movie objects
      */
     public function findByTitle($value): array
     {
@@ -34,7 +34,7 @@ class ItemRepository extends ServiceEntityRepository
         ;
     }
 
-//    public function findOneBySomeField($value): ?Item
+//    public function findOneBySomeField($value): ?Movie
 //    {
 //        return $this->createQueryBuilder('i')
 //            ->andWhere('i.exampleField = :val')

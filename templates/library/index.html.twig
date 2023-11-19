@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">  
                     <a class="btn btn-outline-primary" href="{{ path('app_search') }}"> 
-                        Search Item
+                        Search Movie
                     </a>
             </div>
             <div class="card-body">
@@ -30,9 +30,9 @@
                     
                             <td>
                                 <ul>
-                                    {% for item in library.item %}
-                                        {{ item.title }}
-                                        | {{item.media.label}} | {{item.support.label}}
+                                    {% for movie in library.movie %}
+                                        {{ movie.title }}
+                                        | {{movie.media.label}} | {{movie.support.label}}
                                     {% endfor %}
                                 </ul>
                             </td>
@@ -40,7 +40,7 @@
                             <td>{{ library.updatedAt ? library.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
 
-                                <form method="post" action="{{ path('app_library_delete', {'id': library.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <form method="post" action="{{ path('app_library_delete', {'id': library.id}) }}" onsubmit="return confirm('Are you sure you want to delete this movie?');">
                                 <a
                                     class="btn btn-outline-info"
                                     href="{{ path('app_library_show', {'id': library.id}) }}">

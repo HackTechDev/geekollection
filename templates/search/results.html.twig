@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
   
-{% block title %}Item list{% endblock %}
+{% block title %}Movie list{% endblock %}
   
 {% block body %}
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">Search Item</h2>
+        <h2 class="text-center mt-5 mb-3">Search Movie</h2>
         <div class="card">
             <div class="card-header">
 
@@ -12,13 +12,13 @@
             <div class="card-body">
                 <h1>Search Results</h1>
                 <ul class="list-group">
-                    {% for item in results %}
-                        <li class="list-group-item">>
-                            <form method="post" action="{{ path('add_item_library', {'id': item.id}) }}">
-                                <input type="text" name="itemid" id="itemid_{{ item.id }}" value={{ item.id }}>
-                                <input type="radio" name="selectedData" id="data_{{ item.id }}" value={{ item.id }}>
-                                <label for="data_{{ item.id }}">
-                                    {{ item.id }} : {{ item.title }} | {{item.media.label}} | {{item.support.label}}
+                    {% for movie in results %}
+                        <li class="list-group-movie">>
+                            <form method="post" action="{{ path('add_movie_library', {'id': movie.id}) }}">
+                                <input type="text" name="movieid" id="movieid_{{ movie.id }}" value={{ movie.id }}>
+                                <input type="radio" name="selectedData" id="data_{{ movie.id }}" value={{ movie.id }}>
+                                <label for="data_{{ movie.id }}">
+                                    {{ movie.id }} : {{ movie.title }} | {{movie.media.label}} | {{movie.support.label}}
                                  </label>
                                 <button type="submit" class="btn btn-primary">Select this film</button>
                             </form>

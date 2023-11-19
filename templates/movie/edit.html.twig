@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+  
+{% block title %}Edit Movie{% endblock %}
+  
+{% block body %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-3">Edit Movie</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_movie_index') }}"> 
+                    View All Movies
+                </a>
+            </div>
+            <div class="card-body">
+            
+                {% include 'movie/_form.html.twig' with {'button_label': 'Update Movie', 'button_color': 'btn-outline-success'}  %}
+
+                <form method="POST" action="{{ path('call_api_oeuvre', {'id': movie.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('call_api_oeuvre' ~ movie.id) }}">
+                    <button class="btn btn-outline-success mt-3">Call API Oeuvre</button>
+                </form>
+
+                <form method="POST" action="{{ path('call_api_object', {'id': movie.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('call_api_object' ~ movie.id) }}">
+                    <button class="btn btn-outline-success mt-3">Call API Object</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

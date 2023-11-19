@@ -4,16 +4,16 @@
   
 {% block body %}
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">All API results for {{ itemId }}</h2>
+        <h2 class="text-center mt-5 mb-3">All API results for {{ movieId }}</h2>
         <div class="card">
             <div class="card-header">
             </div>
             <div class="card-body">
                 <ul class="list-group">
                     {% for data in listData['results'] %}
-                        <li class="list-group-item">
-                            <form method="post" action="{{ path('edit_oeuvrelink', {'id': itemId}) }}">
-                                <input type="text" name="itemId" id="itemId_{{ itemId }}" value={{ itemId }}>
+                        <li class="list-group-movie">
+                            <form method="post" action="{{ path('edit_oeuvrelink', {'id': movieId}) }}">
+                                <input type="text" name="movieId" id="movieId_{{ movieId }}" value={{ movieId }}>
                                 <input type="radio" name="selectedData" id="data_{{ data.id }}" value={{ data.id }}>
                                 <label for="data_{{ data.id }}">
                                     ID: {{ data.id }} | Title: {{ data.original_title }}<br>
