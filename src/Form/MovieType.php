@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MovieType extends AbstractType
 {
@@ -21,7 +22,9 @@ class MovieType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('gencode')
+            ->add('gencode', TextType::class, [
+                'data' => 'na',
+            ])
             ->add('media', ChoiceType::class, [
                 'choices' => $options['media_choices'],
                 'label' => 'Media',
