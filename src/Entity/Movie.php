@@ -33,8 +33,8 @@ class Movie
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\ManyToMany(targetEntity: Library::class, mappedBy: 'movie')]
-    private Collection $libraries;
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'movie')]
+    private Collection $items;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     private ?Box $box = null;
@@ -53,7 +53,7 @@ class Movie
 
     public function __construct()
     {
-        $this->libraries = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,27 +122,27 @@ class Movie
     }
 
     /**
-     * @return Collection<int, Library>
+     * @return Collection<int, Item>
      */
-    public function getLibraries(): Collection
+    public function getItems(): Collection
     {
-        return $this->libraries;
+        return $this->items;
     }
 
-    public function addLibrary(Library $library): static
+    public function addItem(Item $item): static
     {
-        if (!$this->libraries->contains($library)) {
-            $this->libraries->add($library);
-            $library->addMovie($this);
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->addMovie($this);
         }
 
         return $this;
     }
 
-    public function removeLibrary(Library $library): static
+    public function removeItem(Item $item): static
     {
-        if ($this->libraries->removeElement($library)) {
-            $library->removeMovie($this);
+        if ($this->items->removeElement($item)) {
+            $item->removeMovie($this);
         }
 
         return $this;

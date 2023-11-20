@@ -38,7 +38,7 @@ security:
         - { path: ^/account, roles: ROLE_USER }
         - { path: ^/box, roles: ROLE_USER }
         - { path: ^/edition, roles: ROLE_USER }
-        - { path: ^/library, roles: ROLE_USER }
+        - { path: ^/item, roles: ROLE_USER }
         - { path: ^/media, roles: ROLE_USER }
         - { path: ^/support, roles: ROLE_USER }
 

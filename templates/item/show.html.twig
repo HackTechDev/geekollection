@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Library{% endblock %}
+{% block title %}Item{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">Show Movie of a Library</h2>
+        <h2 class="text-center mt-5 mb-3">Show Movie of a Item</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-info float-right" href="{{ path('app_library_index') }}"> 
-                    View All Libraries
+                <a class="btn btn-outline-info float-right" href="{{ path('app_item_index') }}"> 
+                    View All Items
                 </a>
             </div>
             <div class="card-body">
@@ -17,8 +17,8 @@
                     <tbody>
                         <tr>
                             <td>
-                                {% for movie in library.movie %}
-                                    {{ movie.title }} | {{movie.media.label}} | {{movie.support.label}} / {{library.information}} / {{library.description}}
+                                {% for movie in item.movie %}
+                                    {{ movie.title }} | {{movie.media.label}} | {{movie.support.label}} / {{item.information}} / {{item.description}}
                                 {% endfor %}
                             </td>
                         </tr>
@@ -26,7 +26,7 @@
                 </table>
                 <a
                     class="btn btn-outline-success"
-                    href="{{ path('app_library_edit', {'id': library.id}) }}">
+                    href="{{ path('app_item_edit', {'id': item.id}) }}">
                     Edit
                 </a>
             </div>

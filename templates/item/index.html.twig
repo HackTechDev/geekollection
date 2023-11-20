@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Library index{% endblock %}
+{% block title %}Item index{% endblock %}
 
 {% block body %}
  <div class="container">
-        <h2 class="text-center mt-5 mb-3">Library index</h2>
+        <h2 class="text-center mt-5 mb-3">Item index</h2>
         <div class="card">
             <div class="card-header">  
                     <a class="btn btn-outline-primary" href="{{ path('app_search') }}"> 
@@ -24,35 +24,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for library in libraries %}
+                    {% for item in items %}
                         <tr>
-                            <td>{{ library.id }}</td>
+                            <td>{{ item.id }}</td>
                     
                             <td>
                                 <ul>
-                                    {% for movie in library.movie %}
+                                    {% for movie in item.movie %}
                                         {{ movie.title }}
                                         | {{movie.media.label}} | {{movie.support.label}}
                                     {% endfor %}
                                 </ul>
                             </td>
-                            <td>{{ library.createdAt ? library.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ library.updatedAt ? library.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ item.createdAt ? item.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ item.updatedAt ? item.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
 
-                                <form method="post" action="{{ path('app_library_delete', {'id': library.id}) }}" onsubmit="return confirm('Are you sure you want to delete this movie?');">
+                                <form method="post" action="{{ path('app_item_delete', {'id': item.id}) }}" onsubmit="return confirm('Are you sure you want to delete this movie?');">
                                 <a
                                     class="btn btn-outline-info"
-                                    href="{{ path('app_library_show', {'id': library.id}) }}">
+                                    href="{{ path('app_item_show', {'id': item.id}) }}">
                                     Show
                                 </a>
                                 
                                     <a
                                         class="btn btn-outline-success"
-                                        href="{{ path('app_library_edit', {'id': library.id}) }}">
+                                        href="{{ path('app_item_edit', {'id': item.id}) }}">
                                         Edit
                                     </a>
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ library.id) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
                                     <button class="btn btn-outline-danger">Delete</button>
                                 </form>
                             

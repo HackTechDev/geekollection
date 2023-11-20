@@ -40,12 +40,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\ManyToMany(targetEntity: Library::class, mappedBy: 'user')]
-    private Collection $libraries;
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'user')]
+    private Collection $items;
 
     public function __construct()
     {
-        $this->libraries = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,27 +143,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Library>
+     * @return Collection<int, Item>
      */
-    public function getLibraries(): Collection
+    public function getItems(): Collection
     {
-        return $this->libraries;
+        return $this->items;
     }
 
-    public function addLibrary(Library $library): static
+    public function addItem(Item $item): static
     {
-        if (!$this->libraries->contains($library)) {
-            $this->libraries->add($library);
-            $library->addUser($this);
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeLibrary(Library $library): static
+    public function removeItem(Item $item): static
     {
-        if ($this->libraries->removeElement($library)) {
-            $library->removeUser($this);
+        if ($this->items->removeElement($item)) {
+            $item->removeUser($this);
         }
 
         return $this;

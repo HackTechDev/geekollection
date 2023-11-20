@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
   
-{% block title %}Add Movie to Library{% endblock %}
+{% block title %}Add Movie to Item{% endblock %}
   
 {% block body %}
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">Add Movie to Library</h2>
+        <h2 class="text-center mt-5 mb-3">Add Movie to Item</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-info float-right" href="{{ path('app_library_index') }}"> 
-                    View All Libraries
+                <a class="btn btn-outline-info float-right" href="{{ path('app_item_index') }}"> 
+                    View All Items
                 </a>
             </div>
             <div class="card-body">
                 <b>{{ title }}</b>
 
-                 {{ include('library/_form.html.twig') }}
+                 {{ include('item/_form.html.twig') }}
             </div>
         </div>
     </div>

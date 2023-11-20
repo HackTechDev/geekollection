@@ -4,17 +4,17 @@
 
 {% block body %}
 <div class="container">
-        <h2 class="text-center mt-5 mb-3">Edit Movie of a Library</h2>
+        <h2 class="text-center mt-5 mb-3">Edit Movie of a Item</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-info float-right" href="{{ path('app_library_index') }}"> 
-                    View All Libraries
+                <a class="btn btn-outline-info float-right" href="{{ path('app_item_index') }}"> 
+                    View All Items
                 </a>
             </div>
             <div class="card-body">
             <b>{{ title }}</b>
 
-                {% include 'library/_form.html.twig' with {'button_label': 'Update Library', 'button_color': 'btn-outline-success'}  %}
+                {% include 'item/_form.html.twig' with {'button_label': 'Update Item', 'button_color': 'btn-outline-success'}  %}
             </div>
         </div>
     </div>

@@ -123,10 +123,10 @@ INSERT INTO `movie` (`id`, `media_id`, `support_id`, `box_id`, `edition_id`, `ti
 -- --------------------------------------------------------
 
 --
--- Structure de la table `library`
+-- Structure de la table `item`
 --
 
-CREATE TABLE `library` (
+CREATE TABLE `item` (
   `id` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -135,10 +135,10 @@ CREATE TABLE `library` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `library`
+-- Déchargement des données de la table `item`
 --
 
-INSERT INTO `library` (`id`, `created_at`, `updated_at`, `information`, `description`) VALUES
+INSERT INTO `item` (`id`, `created_at`, `updated_at`, `information`, `description`) VALUES
 (4, '2023-11-03 21:50:38', '2023-11-03 21:50:38', 'Leclerc', 'sdfsdfs'),
 (5, '2023-11-03 21:33:19', '2023-11-03 21:33:19', 'ddddddddddddddd', 'ddd'),
 (6, '2023-11-03 22:03:15', '2023-11-03 22:03:15', 'comédie musique', 'Beaucoffret'),
@@ -149,19 +149,19 @@ INSERT INTO `library` (`id`, `created_at`, `updated_at`, `information`, `descrip
 -- --------------------------------------------------------
 
 --
--- Structure de la table `library_movie`
+-- Structure de la table `item_movie`
 --
 
-CREATE TABLE `library_movie` (
-  `library_id` int(11) NOT NULL,
+CREATE TABLE `item_movie` (
+  `item_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `library_movie`
+-- Déchargement des données de la table `item_movie`
 --
 
-INSERT INTO `library_movie` (`library_id`, `movie_id`) VALUES
+INSERT INTO `item_movie` (`item_id`, `movie_id`) VALUES
 (4, 3),
 (5, 4),
 (6, 2),
@@ -172,19 +172,19 @@ INSERT INTO `library_movie` (`library_id`, `movie_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `library_user`
+-- Structure de la table `item_user`
 --
 
-CREATE TABLE `library_user` (
-  `library_id` int(11) NOT NULL,
+CREATE TABLE `item_user` (
+  `item_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `library_user`
+-- Déchargement des données de la table `item_user`
 --
 
-INSERT INTO `library_user` (`library_id`, `user_id`) VALUES
+INSERT INTO `item_user` (`item_id`, `user_id`) VALUES
 (4, 1),
 (5, 1),
 (6, 1),
@@ -310,25 +310,25 @@ ALTER TABLE `movie`
   ADD KEY `IDX_1F1B251E74281A5E` (`edition_id`);
 
 --
--- Index pour la table `library`
+-- Index pour la table `item`
 --
-ALTER TABLE `library`
+ALTER TABLE `item`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `library_movie`
+-- Index pour la table `item_movie`
 --
-ALTER TABLE `library_movie`
-  ADD PRIMARY KEY (`library_id`,`movie_id`),
-  ADD KEY `IDX_B9D4EF73FE2541D7` (`library_id`),
+ALTER TABLE `item_movie`
+  ADD PRIMARY KEY (`item_id`,`movie_id`),
+  ADD KEY `IDX_B9D4EF73FE2541D7` (`item_id`),
   ADD KEY `IDX_B9D4EF73126F525E` (`movie_id`);
 
 --
--- Index pour la table `library_user`
+-- Index pour la table `item_user`
 --
-ALTER TABLE `library_user`
-  ADD PRIMARY KEY (`library_id`,`user_id`),
-  ADD KEY `IDX_2B5C1C24FE2541D7` (`library_id`),
+ALTER TABLE `item_user`
+  ADD PRIMARY KEY (`item_id`,`user_id`),
+  ADD KEY `IDX_2B5C1C24FE2541D7` (`item_id`),
   ADD KEY `IDX_2B5C1C24A76ED395` (`user_id`);
 
 --
@@ -382,9 +382,9 @@ ALTER TABLE `movie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT pour la table `library`
+-- AUTO_INCREMENT pour la table `item`
 --
-ALTER TABLE `library`
+ALTER TABLE `item`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
@@ -425,18 +425,18 @@ ALTER TABLE `movie`
   ADD CONSTRAINT `FK_1F1B251EEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
--- Contraintes pour la table `library_movie`
+-- Contraintes pour la table `item_movie`
 --
-ALTER TABLE `library_movie`
+ALTER TABLE `item_movie`
   ADD CONSTRAINT `FK_B9D4EF73126F525E` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_B9D4EF73FE2541D7` FOREIGN KEY (`library_id`) REFERENCES `library` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_B9D4EF73FE2541D7` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `library_user`
+-- Contraintes pour la table `item_user`
 --
-ALTER TABLE `library_user`
+ALTER TABLE `item_user`
   ADD CONSTRAINT `FK_2B5C1C24A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_2B5C1C24FE2541D7` FOREIGN KEY (`library_id`) REFERENCES `library` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_2B5C1C24FE2541D7` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -2,24 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\LibraryRepository;
+use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Entity(repositoryClass: LibraryRepository::class)]
-class Library
+#[ORM\Entity(repositoryClass: ItemRepository::class)]
+class Item
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'libraries')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'items')]
     private Collection $user;
 
-    #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: 'libraries')]
+    #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: 'items')]
     private Collection $movie;
 
     #[Gedmo\Timestampable(on:"update")]
